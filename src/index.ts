@@ -8,7 +8,7 @@ import path from "path";
  * Discord.js modules
  */
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
-import "./deploy-commands";
+import "./deploy-commands.js";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
