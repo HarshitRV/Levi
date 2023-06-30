@@ -101,5 +101,6 @@
 		// "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
 		"skipLibCheck": true /* Skip type checking all .d.ts files. */
 	},
-	"include": ["src", "play/server.ts", "play/user.ts"]
+	"include": ["src", "play/server.ts", "play/user.ts"],
+	"exclude": ["play"]
 }

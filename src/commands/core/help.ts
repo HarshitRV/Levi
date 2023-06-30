@@ -34,6 +34,10 @@ const embed = new EmbedBuilder()
 		{
 			name: "/ping",
 			value: "Pings the bot",
+		},
+		{
+			name: "/clear",
+			value: "clears `n` number of messages",
 		}
 	)
 	.setFooter({
