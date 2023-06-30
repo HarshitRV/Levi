@@ -20,11 +20,12 @@ const embed = new EmbedBuilder()
 		},
 		{
 			name: "/gpt",
-			value: "Ask gpt anything",
+			value: "Ask gpt anything, `(only accessible to bot owners)`",
 		},
 		{
 			name: "/instruct-gpt",
-			value: "Instruct gpt on specific tasks",
+			value:
+				"Instruct gpt on specific tasks, `(only accessible to bot owners)`",
 		},
 		{
 			name: "/echo",
@@ -36,7 +37,7 @@ const embed = new EmbedBuilder()
 		}
 	)
 	.setFooter({
-		text: "© HarshitRV",
+		text: `© ${new Date().getFullYear()} HarshitRV`,
 		iconURL:
 			"https://pbs.twimg.com/profile_images/1540941901490057217/Y01UF2W3_400x400.jpg",
 	});
