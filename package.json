@@ -7,7 +7,7 @@
 		"build": "rimraf dist && npx tsc",
 		"prestart": "npm run build",
 		"start": "node dist/src/index.js",
-		"dev": "concurrently \"npx tsc -w\" \"env-cmd -f ./env/dev.env nodemon dist/src/index.js\""
+		"dev": "concurrently \"npx tsc -w\" \"env-cmd -f ./env/dev.env nodemon dist/index.js\""
 	},
 	"author": "harshitRV",
 	"license": "ISC",
