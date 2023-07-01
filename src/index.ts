@@ -72,7 +72,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 		// console.log(interaction);
 	} catch (e) {
-		console.error();
+		console.log("Error in index.ts");
+		console.error(e);
 	}
 });
 

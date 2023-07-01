@@ -4,7 +4,7 @@ export const instructionEmbed = new EmbedBuilder()
 	.setColor(0x92eb34)
 	.setTitle("Follow the instructions before using this command")
 	.setDescription(
-		"- Go to [OpenAI](https://beta.openai.com/overview) and create an account \n- Go to [this](https://beta.openai.com/account/api-keys) page and copy your api token \n- Use `/register-token` command to register your token with the bot."
+		"Your trial commands are over now you have to register with your own openAI api token to continue using this command\n- Go to [OpenAI](https://beta.openai.com/overview) and create an account \n- Go to [this](https://beta.openai.com/account/api-keys) page and copy your api token \n- Use `/register-token` command to register your token with the bot."
 	)
 	.setFooter({
 		text: "OpenAI",

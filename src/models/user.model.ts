@@ -4,6 +4,7 @@ import { hash } from "bcrypt";
 interface IUser extends Document {
 	id: string;
 	apiToken: Buffer;
+	commandCount: number;
 }
 
 const userSchema = new Schema<IUser>({
@@ -13,6 +14,10 @@ const userSchema = new Schema<IUser>({
 	apiToken: {
 		type: Buffer,
 		default: null,
+	},
+	commandCount: {
+		type: Number,
+		default: 5,
 	},
 });
 

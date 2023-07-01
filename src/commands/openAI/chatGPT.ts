@@ -3,7 +3,7 @@
  */
 import { SlashCommandBuilder } from "discord.js";
 import { instructionEmbed } from "./helper/instructionEmbed";
-
+import { interactionReply } from "./helper/interactionReply";
 /**
  * Open ai modules
  */
@@ -40,6 +40,7 @@ const chatGPT = async (query: string, apiKey: string) => {
 		const response = chatCompletion.data.choices[0].message?.content;
 		return response;
 	} catch (e) {
+		console.log("Error fetching gpt reply");
 		console.error(e);
 		return null;
 	}
@@ -60,20 +61,33 @@ const execute = async (interaction: any) => {
 			id: interaction.user.id,
 		});
 
-		if (existingUser?.apiToken) {
+		if (existingUser && existingUser.commandCount !== 0) {
+			const apiKey = process.env.OPENAI_API_KEY || "";
+			const reply = await chatGPT(query, apiKey);
+
+			interactionReply(reply, interaction);
+
+			existingUser.commandCount -= 1;
+			await existingUser.save();
+		} else if (existingUser?.apiToken) {
 			const encryptedKey = existingUser.apiToken;
 			const apiKey = decrypt(encryptedKey, SECRET_KEY);
+
 			const reply = await chatGPT(query, apiKey.toString());
-			if (reply === null)
-				await interaction.reply({
-					content:
-						"Couldn't get response at the moment please try again later, also ensure that the API token you provided is a valid one",
-					ephemeral: true,
-				});
-			else {
-				await interaction.reply({ content: "processing request..." });
-				await interaction.editReply({ content: reply });
-			}
+
+			interactionReply(reply, interaction);
+		} else if (existingUser === null) {
+			const user = new User({
+				id: interaction.user.id,
+				commandCount: 4,
+			});
+			await user.save();
+
+			const apiKey = process.env.OPENAI_API_KEY || "";
+
+			const reply = await chatGPT(query, apiKey);
+
+			interactionReply(reply, interaction);
 		} else {
 			return await interaction.reply({
 				embeds: [instructionEmbed],
@@ -81,11 +95,8 @@ const execute = async (interaction: any) => {
 			});
 		}
 	} catch (e) {
+		console.log("Error in chateGPT.ts");
 		console.error(e);
-		await interaction.reply({
-			content: "failed to execute command",
-			ephemeral: true,
-		});
 	}
 };
 
