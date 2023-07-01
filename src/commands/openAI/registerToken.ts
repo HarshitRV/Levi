@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { encrypt } from "../../utils/crypt.js";
 
 /**
@@ -12,22 +11,27 @@ import {
 } from "discord.js";
 
 /**
+ * Helpers
+ */
+import { getEmbed } from "./helper/getEmbed.js";
+
+/**
  * User model
  */
 import User from "../../models/user.model.js";
 
 const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
-const update = new ButtonBuilder()
+const update: ButtonBuilder = new ButtonBuilder()
 	.setCustomId("update")
 	.setLabel("Update")
 	.setStyle(ButtonStyle.Success);
 
-const row = new ActionRowBuilder().addComponents(update);
+const row: ActionRowBuilder = new ActionRowBuilder().addComponents(update);
 
 const data = new SlashCommandBuilder()
 	.setName("register-token")
-	.setDescription("register your open-ai api token")
+	.setDescription("registers your open-ai api token")
 	.addStringOption((option) =>
 		option
 			.setName("token")
@@ -38,14 +42,21 @@ const data = new SlashCommandBuilder()
 const execute = async (interaction: any) => {
 	try {
 		const apiToken = await interaction.options.getString("token");
+
+		const encryptedToken = encrypt(apiToken, SECRET_KEY);
+
 		const existingUser = await User.findOne({
 			id: interaction.user.id,
 		});
 
 		let response;
-		if (existingUser) {
+		if (existingUser?.apiToken) {
+			const updateEmbed = getEmbed(
+				"Update Token",
+				"Your token is already registered. Do you wish to update?",
+			);
 			response = await interaction.reply({
-				content: "Your token is already registerd. Do you wish to update?",
+				embeds: [updateEmbed],
 				ephemeral: true,
 				components: [row],
 			});
@@ -59,25 +70,43 @@ const execute = async (interaction: any) => {
 				});
 
 				if (confirmation.customId === "update") {
-					const encryptedToken = encrypt(apiToken, SECRET_KEY);
 					existingUser.apiToken = encryptedToken;
 					await existingUser.save();
+
+					const updatedEmbed = getEmbed("Updated", "✅ Updated your api token");
+
 					return confirmation.update({
-						content: "Updated your api token ✅",
+						embeds: [updatedEmbed],
 						components: [],
 					});
 				}
-			} catch (e) {}
+			} catch (e) {
+				console.error(e);
+			}
+		} else if (existingUser) {
+			existingUser.apiToken = encryptedToken;
+			await existingUser.save();
+
+			const updatedEmbed = getEmbed(
+				"Updated",
+				"✅ Updated token successfully\n"
+			);
+
+			return interaction.reply({
+				embeds: [updatedEmbed],
+				ephemeral: true,
+			});
 		} else {
-			const encryptedToken = encrypt(apiToken, SECRET_KEY);
 			const user = new User({
 				id: interaction.user.id,
 				apiToken: encryptedToken,
 			});
+	
 			await user.save();
+
+			const savedEmbed = getEmbed("Saved", "✅ Saved token successfully\n");
 			return interaction.reply({
-				content:
-					"✅ Saved your token, now you are ready to use `/gpt` and `/instruct-gpt`",
+				embeds: [savedEmbed],
 				ephemeral: true,
 			});
 		}

@@ -3,6 +3,7 @@
  */
 import fs from "fs";
 import path from "path";
+import { keepAlive } from "./server.js";
 
 /**
  * Discord.js modules
@@ -75,4 +76,5 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	}
 });
 
+keepAlive();
 client.login(process.env.TOKEN);

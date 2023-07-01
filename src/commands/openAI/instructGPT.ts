@@ -3,16 +3,12 @@
  */
 import { SlashCommandBuilder } from "discord.js";
 import { Configuration, OpenAIApi } from "openai";
-
-/**
- * Node modules
- */
-import { setTimeout } from "timers/promises";
+import { instructionEmbed } from "./helper/instructionEmbed";
 
 /**
  * Utils
  */
-import { encrypt, decrypt } from "../../utils/crypt";
+import { decrypt } from "../../utils/crypt";
 
 /**
  * Models
@@ -22,7 +18,6 @@ import User from "../../models/user.model";
 /**
  * Globals
  */
-const wait = setTimeout;
 const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
 const chatGPT = async (
@@ -98,7 +93,7 @@ const execute = async (interaction: any) => {
 			}
 		} else {
 			return await interaction.reply({
-				content: "Register your openai api token first using `/register-token`",
+				embeds: [instructionEmbed],
 				ephemeral: true,
 			});
 		}

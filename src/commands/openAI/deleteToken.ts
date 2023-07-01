@@ -12,11 +12,14 @@ import {
 } from "discord.js";
 
 /**
+ * Helper
+ */
+import { getEmbed } from "./helper/getEmbed.js";
+
+/**
  * User model
  */
 import User from "../../models/user.model.js";
-
-const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
 const confirm = new ButtonBuilder()
 	.setCustomId("confirm")
@@ -37,8 +40,13 @@ const execute = async (interaction: any) => {
 
 		let response;
 		if (existingUser) {
+			const deleteEmbed = getEmbed(
+				"Delete Token",
+				"⛔️ Are you sure, you want to delete your token?",
+				0xeb091c
+			);
 			response = await interaction.reply({
-				content: "Are you sure you want to delete your token?",
+				embeds: [deleteEmbed],
 				ephemeral: true,
 				components: [row],
 			});
@@ -63,8 +71,13 @@ const execute = async (interaction: any) => {
 							new: true,
 						}
 					);
+					const deletedEmbed = getEmbed(
+						"Token Deleted",
+						"🗑️ Deleted your token from the bot",
+						0xeb091c
+					);
 					return confirmation.update({
-						content: "Deleted your token ✅",
+						embeds: [deletedEmbed],
 						components: [],
 					});
 				}
@@ -73,7 +86,7 @@ const execute = async (interaction: any) => {
 			}
 		} else {
 			return interaction.reply({
-				content: "Your token is not registered with user 🤔",
+				content: "Your token is not registered with the bot 🤔",
 				ephemeral: true,
 			});
 		}
