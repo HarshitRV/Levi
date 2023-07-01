@@ -78,4 +78,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 keepAlive();
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).then(() => {
+	client.user?.setActivity("🚧 Under development")
+});
