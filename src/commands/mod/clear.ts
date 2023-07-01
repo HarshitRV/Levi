@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
 
 const data = new SlashCommandBuilder()
 	.setName("clear")
@@ -8,7 +8,8 @@ const data = new SlashCommandBuilder()
 			.setName("number")
 			.setDescription("number of messages you want to delete")
 			.setRequired(true)
-	);
+	)
+	.setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages);
 
 const execute = async (interaction: any) => {
 	try {
@@ -21,15 +22,8 @@ const execute = async (interaction: any) => {
 			});
 		}
 
-		if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
-			return await interaction.reply({
-				content: "You don't have permission to use this command.",
-				ephemeral: true,
-			});
-		}
-
 		const messages = await interaction.channel.messages.fetch({
-			limit: number + 1,
+			limit: number,
 		});
 
 		await interaction.channel.bulkDelete(messages);

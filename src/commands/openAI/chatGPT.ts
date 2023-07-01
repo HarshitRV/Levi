@@ -1,6 +1,21 @@
+/**
+ * Discord.js modules
+ */
 import { SlashCommandBuilder } from "discord.js";
+
+/**
+ * Open ai modules
+ */
 import { Configuration, OpenAIApi } from "openai";
+
+/**
+ * Model
+ */
 import User from "../../models/user.model";
+
+/**
+ * Utils
+ */
 import { decrypt } from "../../utils/crypt";
 
 const SECRET_KEY = process.env.SECRET_KEY || "";
@@ -22,7 +37,6 @@ const chatGPT = async (query: string, apiKey: string) => {
 			],
 		});
 		const response = chatCompletion.data.choices[0].message?.content;
-		console.log("RESPONSE", response, typeof response);
 		return response;
 	} catch (e) {
 		console.error(e);
@@ -45,7 +59,7 @@ const execute = async (interaction: any) => {
 			id: interaction.user.id,
 		});
 
-		if (existingUser) {
+		if (existingUser?.apiToken) {
 			const encryptedKey = existingUser.apiToken;
 			const apiKey = decrypt(encryptedKey, SECRET_KEY);
 			const reply = await chatGPT(query, apiKey.toString());

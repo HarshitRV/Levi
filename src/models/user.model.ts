@@ -12,6 +12,7 @@ const userSchema = new Schema<IUser>({
 	},
 	apiToken: {
 		type: Buffer,
+		default: null,
 	},
 });
 
