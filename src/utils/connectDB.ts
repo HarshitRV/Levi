@@ -7,6 +7,6 @@ const MONGODB_URI = process.env.MONGODB_URI || "";
 		const con = await mongoose.connect(MONGODB_URI);
 		if (con) console.log("mongodb connected...");
 	} catch (e) {
-		console.error();
+		console.error(e);
 	}
 })();
