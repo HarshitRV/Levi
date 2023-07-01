@@ -13,6 +13,8 @@ Levi is a Discord bot equipped with OpenAI APIs like ChatGPT to provide you with
 
 [Add Levi to your server](https://discord.com/api/oauth2/authorize?client_id=1123810664100671578&permissions=2048&scope=applications.commands%20bot)
 
+For support and queries, join our [discord server](https://discord.com/invite/9qtAg79ahW).
+
 ## Commands
 
 ### Fun Commands ✨
