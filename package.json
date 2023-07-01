@@ -11,6 +11,10 @@
 	},
 	"author": "harshitRV",
 	"license": "ISC",
+	"engines": {
+		"npm": ">=9.6.6",
+		"node": ">=18.16.0"
+	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
 		"@types/express": "^4.17.17",
