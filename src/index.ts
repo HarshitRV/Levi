@@ -9,6 +9,7 @@ import path from "path";
  */
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import "./deploy-commands.js";
+import "./utils/connectDB.js";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

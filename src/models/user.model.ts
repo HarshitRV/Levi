@@ -3,7 +3,7 @@ import { hash } from "bcrypt";
 
 interface IUser extends Document {
 	id: string;
-	apiToken: string;
+	apiToken: Buffer;
 }
 
 const userSchema = new Schema<IUser>({
@@ -11,24 +11,8 @@ const userSchema = new Schema<IUser>({
 		type: String,
 	},
 	apiToken: {
-		type: String,
+		type: Buffer,
 	},
-});
-
-/**
- * Hash and save the token
- */
-userSchema.pre("save", async function (next) {
-	try {
-		if (this.isModified("apiToken")) {
-			const hashedToken = await hash(this.apiToken, 8);
-			this.apiToken = hashedToken;
-		}
-		next();
-	} catch (e: any) {
-		console.error(e);
-		next(e);
-	}
 });
 
 const User = model("User", userSchema);

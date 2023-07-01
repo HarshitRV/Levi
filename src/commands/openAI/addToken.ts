@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { encrypt } from "../../utils/crypt.js";
 
 /**
  * Discord js modules
@@ -14,6 +15,8 @@ import {
  * User model
  */
 import User from "../../models/user.model.js";
+
+const SECRET_KEY: string = process.env.SECRET_KEY || "";
 
 const update = new ButtonBuilder()
 	.setCustomId("update")
@@ -36,7 +39,7 @@ const execute = async (interaction: any) => {
 	try {
 		const apiToken = await interaction.options.getString("token");
 		const existingUser = await User.findOne({
-			apiToken,
+			id: interaction.user.id,
 		});
 
 		let response;
@@ -56,21 +59,34 @@ const execute = async (interaction: any) => {
 				});
 
 				if (confirmation.customId === "update") {
-					existingUser.apiToken = apiToken;
+					const encryptedToken = encrypt(apiToken, SECRET_KEY);
+					existingUser.apiToken = encryptedToken;
 					await existingUser.save();
-					return interaction.update({
+					return confirmation.update({
 						content: "Updated your api token ✅",
-						component: [],
+						components: [],
 					});
 				}
 			} catch (e) {}
 		} else {
+			const encryptedToken = encrypt(apiToken, SECRET_KEY);
 			const user = new User({
 				id: interaction.user.id,
-				apiToken,
+				apiToken: encryptedToken,
+			});
+			await user.save();
+			return interaction.reply({
+				content:
+					"✅ Saved your token, now you are ready to use `/gpt` and `/instruct-gpt`",
+				ephemeral: true,
 			});
 		}
 	} catch (e) {
 		console.error(e);
 	}
+};
+
+export = {
+	data,
+	execute,
 };

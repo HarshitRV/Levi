@@ -1,17 +1,18 @@
 import { SlashCommandBuilder } from "discord.js";
 import { Configuration, OpenAIApi } from "openai";
-import { setTimeout } from "timers/promises";
+import User from "../../models/user.model";
+import { decrypt } from "../../utils/crypt";
 
-const wait = setTimeout;
+const SECRET_KEY = process.env.SECRET_KEY || "";
 
-const configuration = new Configuration({
-	apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
-
-const chatGPT = async (query: string) => {
+const chatGPT = async (query: string, apiKey: string) => {
 	try {
+		const configuration = new Configuration({
+			apiKey,
+		});
+
+		const openai = new OpenAIApi(configuration);
+
 		const chatCompletion = await openai.createChatCompletion({
 			model: "gpt-3.5-turbo-0613",
 			max_tokens: 256,
@@ -34,30 +35,35 @@ const data = new SlashCommandBuilder()
 	.setDescription("ask chat gpt")
 	.addStringOption((option) =>
 		option.setName("query").setDescription("enter your query").setRequired(true)
-	)
-	.addBooleanOption((option) =>
-		option.setName("ephemeral").setDescription("set true for private reply")
 	);
 
 const execute = async (interaction: any) => {
 	try {
 		const query = interaction.options.getString("query");
-		const ephemeral = interaction.options.getBoolean("ephemeral");
 
-		if (interaction.user.id === process.env.OWNER_ID) {
-			const reply = await chatGPT(query);
+		const existingUser = await User.findOne({
+			id: interaction.user.id,
+		});
+
+		if (existingUser) {
+			const encryptedKey = existingUser.apiToken;
+			const apiKey = decrypt(encryptedKey, SECRET_KEY);
+			const reply = await chatGPT(query, apiKey.toString());
 			if (reply === null)
 				await interaction.reply({
-					content: "couldn't get response",
+					content:
+						"Couldn't get response at the moment please try again later, also ensure that the API token you provided is a valid one",
 					ephemeral: true,
 				});
 			else {
-				await interaction.deferReply();
-				await wait(4000);
-				await interaction.editReply({ content: reply, ephemeral });
+				await interaction.reply({ content: "processing request..." });
+				await interaction.editReply({ content: reply });
 			}
 		} else {
-			await interaction.reply("You are not authorized to use this command!");
+			return await interaction.reply({
+				content: "Register your openai api token first using `/register-token`",
+				ephemeral: true,
+			});
 		}
 	} catch (e) {
 		console.error(e);

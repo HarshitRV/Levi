@@ -20,12 +20,12 @@ const embed = new EmbedBuilder()
 		},
 		{
 			name: "/gpt",
-			value: "Ask gpt anything, `(only accessible to bot owners)`",
+			value: "Ask gpt anything, `(requires open-ai API Token)`",
 		},
 		{
 			name: "/instruct-gpt",
 			value:
-				"Instruct gpt on specific tasks, `(only accessible to bot owners)`",
+				"Instruct gpt on specific tasks, `(requires open-ai API Token)`",
 		},
 		{
 			name: "/echo",
