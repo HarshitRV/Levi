@@ -24,8 +24,15 @@ const embed = new EmbedBuilder()
 		},
 		{
 			name: "/instruct-gpt",
-			value:
-				"Instruct gpt on specific tasks, `(requires open-ai API Token)`",
+			value: "Instruct gpt on specific tasks, `(requires open-ai API Token)`",
+		},
+		{
+			name: "/register-token",
+			value: "Add your open-ai api token to use chat-gpt",
+		},
+		{
+			name: "/delete-token",
+			value: "Remove your open-ai api token from the bot",
 		},
 		{
 			name: "/echo",

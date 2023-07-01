@@ -1,7 +1,7 @@
 /**
  * Discord.js modules
  */
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 
 /**
  * Open ai modules
@@ -44,6 +44,17 @@ const chatGPT = async (query: string, apiKey: string) => {
 	}
 };
 
+const embed = new EmbedBuilder()
+	.setColor(0x92eb34)
+	.setTitle("Follow the instructions before using this command")
+	.setDescription(
+		"- Go to [OpenAI](https://beta.openai.com/overview) and create an account \n- Go to [this](https://beta.openai.com/account/api-keys) page and copy your api token \n- Use `/register-token` command to register your token with the bot."
+	)
+	.setFooter({
+		text: "OpenAI",
+		iconURL: "https://i.imgur.com/PlcZ5Kj.png",
+	});
+
 const data = new SlashCommandBuilder()
 	.setName("gpt")
 	.setDescription("ask chat gpt")
@@ -75,7 +86,7 @@ const execute = async (interaction: any) => {
 			}
 		} else {
 			return await interaction.reply({
-				content: "Register your openai api token first using `/register-token`",
+				embeds: [embed],
 				ephemeral: true,
 			});
 		}
