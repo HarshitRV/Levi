@@ -1,4 +1,12 @@
+/**
+ * Node modules
+ */
 import { setTimeout } from "timers/promises";
+
+/**
+ * Models
+ */
+import User from "../../../models/user.model";
 
 const wait = setTimeout;
 
@@ -20,6 +28,16 @@ export const interactionReply = async (
 		}
 	} catch (e) {
 		console.log("Error in interactionReply.ts");
+		console.log("Interaction initiated by user: ", interaction.user.id);
+
+		const user = await User.findOne({
+			discordId: interaction.user.id,
+		});
+		if (user) {
+			user.commandCount += 1;
+			await user.save();
+		}
+
 		console.error(e);
 	}
 };

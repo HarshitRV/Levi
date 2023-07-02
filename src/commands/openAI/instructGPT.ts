@@ -75,7 +75,7 @@ const execute = async (interaction: any) => {
 		const instruction = interaction.options.getString("instruction");
 
 		const existingUser = await User.findOne({
-			id: interaction.user.id,
+			discordId: interaction.user.id,
 		});
 
 		if (existingUser && existingUser.commandCount !== 0) {
@@ -95,7 +95,7 @@ const execute = async (interaction: any) => {
 			interactionReply(reply, interaction);
 		} else if (existingUser === null) {
 			const user = new User({
-				id: interaction.user.id,
+				discordId: interaction.user.id,
 				commandCount: 4,
 			});
 

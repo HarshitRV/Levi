@@ -35,11 +35,11 @@ const data = new SlashCommandBuilder()
 const execute = async (interaction: any) => {
 	try {
 		const existingUser = await User.findOne({
-			id: interaction.user.id,
+			discordId: interaction.user.id,
 		});
 
 		let response;
-		if (existingUser) {
+		if (existingUser && existingUser.apiToken !== null) {
 			const deleteEmbed = getEmbed(
 				"Delete Token",
 				"⛔️ Are you sure, you want to delete your token?",
@@ -62,7 +62,7 @@ const execute = async (interaction: any) => {
 				if (confirmation.customId === "confirm") {
 					await User.findOneAndUpdate(
 						{
-							id: interaction.user.id,
+							discordId: interaction.user.id,
 						},
 						{
 							$unset: { apiToken: 1 },
@@ -86,7 +86,7 @@ const execute = async (interaction: any) => {
 			}
 		} else {
 			return interaction.reply({
-				content: "Your token is not registered with the bot 🤔",
+				content: "You do not have any token associated with the bot 🤔",
 				ephemeral: true,
 			});
 		}

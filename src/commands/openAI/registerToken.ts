@@ -46,7 +46,7 @@ const execute = async (interaction: any) => {
 		const encryptedToken = encrypt(apiToken, SECRET_KEY);
 
 		const existingUser = await User.findOne({
-			id: interaction.user.id,
+			discordId: interaction.user.id,
 		});
 
 		let response;
@@ -98,7 +98,7 @@ const execute = async (interaction: any) => {
 			});
 		} else {
 			const user = new User({
-				id: interaction.user.id,
+				discordId: interaction.user.id,
 				apiToken: encryptedToken,
 			});
 	
