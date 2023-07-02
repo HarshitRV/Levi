@@ -14,6 +14,7 @@ export const interactionReply = async (
 	reply: string | null | undefined,
 	interaction: any
 ) => {
+	console.log(reply, interaction);
 	try {
 		if (reply === null) {
 			await interaction.reply({
@@ -22,9 +23,7 @@ export const interactionReply = async (
 			});
 			return;
 		} else {
-			await interaction.deferReply();
-			await wait(4000);
-			await interaction.editReply({ content: reply });
+			await interaction.reply({ content: reply });
 		}
 	} catch (e) {
 		console.log("Error in interactionReply.ts");
