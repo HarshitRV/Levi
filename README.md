@@ -1,7 +1,7 @@
 # Levi
 
 <div style="display:flex; align-items: center; justify-content: center; flex-direction:column;">
-    <img src="https://i.imgur.com/BJZKLDR.jpg" width="90px" style="text-align: center;">
+    <img src="https://i.imgur.com/n8IKCoY.jpg" width="90px" style="text-align: center;">
     <div>
         <img src="https://img.shields.io/discord/808991875934847026">
     </div>
