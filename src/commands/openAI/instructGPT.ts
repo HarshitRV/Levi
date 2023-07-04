@@ -85,7 +85,7 @@ const execute = async (interaction: any) => {
 
 			const reply = await chatGPT(input, instruction, apiKey);
 
-			interactionReply(reply, interaction);
+			interactionReply(reply, interaction, existingUser);
 
 			existingUser.commandCount -= 1;
 			existingUser.save();
@@ -98,7 +98,7 @@ const execute = async (interaction: any) => {
 
 			const reply = await chatGPT(input, instruction, apiKey.toString());
 
-			interactionReply(reply, interaction);
+			interactionReply(reply, interaction, existingUser);
 		} else if (existingUser === null) {
 			const user = new User({
 				discordId: interaction.user.id,
@@ -113,7 +113,7 @@ const execute = async (interaction: any) => {
 
 			const reply = await chatGPT(input, instruction, apiKey);
 
-			interactionReply(reply, interaction);
+			interactionReply(reply, interaction, user);
 		} else {
 			return await interaction.reply({
 				embeds: [instructionEmbed],
