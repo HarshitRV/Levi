@@ -79,5 +79,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 keepAlive();
 client.login(process.env.TOKEN).then(() => {
-	client.user?.setActivity("🚧 Under development")
+	const serverCount = client.guilds.cache.size;
+	const memberCount = client.users.cache.size;
+	client.user?.setActivity(
+		`/help on ${serverCount} servers`
+	);
 });
