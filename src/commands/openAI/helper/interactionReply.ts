@@ -1,29 +1,21 @@
 /**
- * Node modules
- */
-import { setTimeout } from "timers/promises";
-
-/**
  * Models
  */
 import User from "../../../models/user.model";
-
-const wait = setTimeout;
 
 export const interactionReply = async (
 	reply: string | null | undefined,
 	interaction: any
 ) => {
-	console.log(reply, interaction);
 	try {
-		if (reply === null) {
+		if (reply?.length === 0) {
 			await interaction.reply({
 				content:
-					"Couldn't get response at the moment please try again later, also ensure that the API token you provided is a valid one",
+					"Couldn't get a response at the moment. Please try again later, and ensure that the API token you provided is valid.",
 			});
 			return;
 		} else {
-			await interaction.reply({ content: reply });
+			await interaction.editReply(reply);
 		}
 	} catch (e) {
 		console.log("Error in interactionReply.ts");

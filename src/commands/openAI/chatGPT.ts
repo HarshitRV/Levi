@@ -3,6 +3,7 @@
  */
 import { SlashCommandBuilder } from "discord.js";
 import { instructionEmbed } from "./helper/instructionEmbed";
+// import { interactionReply } from "./helper/interactionReply";
 import { interactionReply } from "./helper/interactionReply";
 /**
  * Open ai modules
@@ -18,6 +19,9 @@ import User from "../../models/user.model";
  * Utils
  */
 import { decrypt } from "../../utils/crypt";
+
+import { setTimeout } from "node:timers/promises";
+const wait = setTimeout;
 
 const SECRET_KEY = process.env.SECRET_KEY || "";
 
@@ -63,6 +67,9 @@ const execute = async (interaction: any) => {
 
 		if (existingUser && existingUser.commandCount !== 0) {
 			const apiKey = process.env.OPENAI_API_KEY || "";
+
+			await interaction.deferReply();
+
 			const reply = await chatGPT(query, apiKey);
 
 			interactionReply(reply, interaction);
@@ -72,6 +79,8 @@ const execute = async (interaction: any) => {
 		} else if (existingUser?.apiToken) {
 			const encryptedKey = existingUser.apiToken;
 			const apiKey = decrypt(encryptedKey, SECRET_KEY);
+
+			await interaction.deferReply();
 
 			const reply = await chatGPT(query, apiKey.toString());
 
@@ -84,6 +93,8 @@ const execute = async (interaction: any) => {
 			await user.save();
 
 			const apiKey = process.env.OPENAI_API_KEY || "";
+
+			await interaction.deferReply();
 
 			const reply = await chatGPT(query, apiKey);
 
