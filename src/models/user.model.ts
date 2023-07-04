@@ -1,11 +1,10 @@
 import { Schema, Document, model } from "mongoose";
 import { hash } from "bcrypt";
 
-interface IUser extends Document {
-	discordId: string;
-	apiToken: Buffer;
-	commandCount: number;
-}
+/**
+ * Types
+ */
+import { IUser } from "../@types/types";
 
 const userSchema = new Schema<IUser>({
 	discordId: {

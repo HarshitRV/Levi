@@ -3,12 +3,13 @@
  */
 import { SlashCommandBuilder } from "discord.js";
 import { instructionEmbed } from "./helper/instructionEmbed";
-// import { interactionReply } from "./helper/interactionReply";
 import { interactionReply } from "./helper/interactionReply";
+
 /**
  * Open ai modules
  */
 import { Configuration, OpenAIApi } from "openai";
+import { encode, decode } from "gpt-3-encoder";
 
 /**
  * Model
@@ -20,9 +21,6 @@ import User from "../../models/user.model";
  */
 import { decrypt } from "../../utils/crypt";
 
-import { setTimeout } from "node:timers/promises";
-const wait = setTimeout;
-
 const SECRET_KEY = process.env.SECRET_KEY || "";
 
 const chatGPT = async (query: string, apiKey: string) => {
@@ -32,6 +30,10 @@ const chatGPT = async (query: string, apiKey: string) => {
 		});
 
 		const openai = new OpenAIApi(configuration);
+
+		const encodedLength = encode(query).length;
+
+		if (encodedLength >= 256) return "MAX_TOKEN_LIMIT";
 
 		const chatCompletion = await openai.createChatCompletion({
 			model: "gpt-3.5-turbo-0613",
@@ -72,10 +74,7 @@ const execute = async (interaction: any) => {
 
 			const reply = await chatGPT(query, apiKey);
 
-			interactionReply(reply, interaction);
-
-			existingUser.commandCount -= 1;
-			await existingUser.save();
+			interactionReply(reply, interaction, existingUser);
 		} else if (existingUser?.apiToken) {
 			const encryptedKey = existingUser.apiToken;
 			const apiKey = decrypt(encryptedKey, SECRET_KEY);
@@ -84,11 +83,11 @@ const execute = async (interaction: any) => {
 
 			const reply = await chatGPT(query, apiKey.toString());
 
-			interactionReply(reply, interaction);
+			interactionReply(reply, interaction, existingUser);
 		} else if (existingUser === null) {
 			const user = new User({
 				discordId: interaction.user.id,
-				commandCount: 4,
+				commandCount: 5,
 			});
 			await user.save();
 
@@ -98,7 +97,7 @@ const execute = async (interaction: any) => {
 
 			const reply = await chatGPT(query, apiKey);
 
-			interactionReply(reply, interaction);
+			interactionReply(reply, interaction, user);
 		} else {
 			return await interaction.reply({
 				embeds: [instructionEmbed],
