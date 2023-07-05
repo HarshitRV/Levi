@@ -79,9 +79,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 keepAlive();
 client.login(process.env.TOKEN).then(() => {
-	const serverCount = client.guilds.cache.size;
-	const memberCount = client.users.cache.size;
-	client.user?.setActivity(
-		`/help on ${serverCount} servers`
-	);
+	setInterval(() => {
+		const serverCount = client.guilds.cache.size;
+		client.user?.setActivity(`/help on ${serverCount} servers`);
+	}, 10000);
 });
