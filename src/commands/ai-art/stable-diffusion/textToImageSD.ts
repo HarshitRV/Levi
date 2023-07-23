@@ -37,7 +37,9 @@ const textToImageSD = async (
 		);
 
 		const data: TextToImageResponseData = await response.json();
-		
+
+		console.log("Data", data);
+
 		return data;
 	} catch (e) {
 		throw e;
