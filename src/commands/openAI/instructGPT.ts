@@ -1,7 +1,7 @@
 /**
  * Discord.js modules
  */
-import { SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Configuration, OpenAIApi } from "openai";
 import { instructionEmbed } from "./helper/instructionEmbed";
 import { interactionReply } from "./helper/interactionReply";
@@ -69,10 +69,10 @@ const data = new SlashCommandBuilder()
 			.setDescription("set the accuracy of responses, ranges between 0 to 1")
 	);
 
-const execute = async (interaction: any) => {
+const execute = async (interaction: ChatInputCommandInteraction) => {
 	try {
-		const input = interaction.options.getString("input");
-		const instruction = interaction.options.getString("instruction");
+		const input = interaction.options.getString("input")!;
+		const instruction = interaction.options.getString("instruction")!;
 
 		const existingUser = await User.findOne({
 			discordId: interaction.user.id,

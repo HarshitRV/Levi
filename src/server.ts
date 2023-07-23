@@ -2,7 +2,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 
 const server: Express = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT: string = process.env.PORT!;
 
 server.all("/", (req: Request, res: Response) => {
 	return res.status(200).send({

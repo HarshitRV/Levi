@@ -5,6 +5,7 @@ import { SlashCommandBuilder } from "discord.js";
 import { instructionEmbed } from "./helper/instructionEmbed";
 import { interactionReply } from "./helper/interactionReply";
 
+import { ChatInputCommandInteraction } from "discord.js";
 /**
  * Open ai modules
  */
@@ -21,7 +22,7 @@ import User from "../../models/user.model";
  */
 import { decrypt } from "../../utils/crypt";
 
-const SECRET_KEY = process.env.SECRET_KEY || "";
+const SECRET_KEY: string = process.env.SECRET_KEY!;
 
 const chatGPT = async (query: string, apiKey: string) => {
 	try {
@@ -59,9 +60,9 @@ const data = new SlashCommandBuilder()
 		option.setName("query").setDescription("enter your query").setRequired(true)
 	);
 
-const execute = async (interaction: any) => {
+const execute = async (interaction: ChatInputCommandInteraction) => {
 	try {
-		const query = interaction.options.getString("query");
+		const query = interaction.options.getString("query")!;
 
 		const existingUser = await User.findOne({
 			discordId: interaction.user.id,
