@@ -23,6 +23,10 @@ const embed = new EmbedBuilder()
 			value: "Ask gpt anything, `(requires open-ai API Token)`",
 		},
 		{
+			name: "/gemini",
+			value: "Ask google gemini anything, `(NEW)` ✨",
+		},
+		{
 			name: "/instruct-gpt",
 			value: "Instruct gpt on specific tasks, `(requires open-ai API Token)`",
 		},
