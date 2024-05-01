@@ -1,4 +1,4 @@
-import { encrypt } from "../../utils/crypt.js";
+import { encrypt } from "../../../utils/crypt.js";
 
 /**
  * Discord js modules
@@ -13,12 +13,12 @@ import {
 /**
  * Helpers
  */
-import { getEmbed } from "./helper/getEmbed.js";
+import { getEmbed } from "../helper/getEmbed.js";
 
 /**
  * User model
  */
-import User from "../../models/user.model.js";
+import User from "../../../models/user.model.js";
 
 const SECRET_KEY: string = process.env.SECRET_KEY || "";
 

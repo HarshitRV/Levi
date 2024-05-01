@@ -18,22 +18,22 @@ const embed = new EmbedBuilder()
 			name: "/sarcasm",
 			value: "Get random Chandler Bing's sarcastic comment",
 		},
-		{
-			name: "/gpt",
-			value: "Ask gpt anything, `(requires open-ai API Token)`",
-		},
+		// {
+		// 	name: "/gpt",
+		// 	value: "Ask gpt anything, `(requires open-ai API Token)`",
+		// },
 		{
 			name: "/gemini",
 			value: "Ask google gemini anything, `(NEW)` ✨",
 		},
-		{
-			name: "/instruct-gpt",
-			value: "Instruct gpt on specific tasks, `(requires open-ai API Token)`",
-		},
-		{
-			name: "/register-token",
-			value: "Add your open-ai api token to use chat-gpt",
-		},
+		// {
+		// 	name: "/instruct-gpt",
+		// 	value: "Instruct gpt on specific tasks, `(requires open-ai API Token)`",
+		// },
+		// {
+		// 	name: "/register-token",
+		// 	value: "Add your open-ai api token to use chat-gpt",
+		// },
 		{
 			name: "/delete-token",
 			value: "Remove your open-ai api token from the bot",

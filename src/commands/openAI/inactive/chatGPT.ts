@@ -2,8 +2,8 @@
  * Discord.js modules
  */
 import { SlashCommandBuilder } from "discord.js";
-import { instructionEmbed } from "./helper/instructionEmbed";
-import { interactionReply } from "./helper/interactionReply";
+import { instructionEmbed } from "../helper/instructionEmbed";
+import { interactionReply } from "../helper/interactionReply";
 
 /**
  * Open ai modules
@@ -14,12 +14,12 @@ import { encode, decode } from "gpt-3-encoder";
 /**
  * Model
  */
-import User from "../../models/user.model";
+import User from "../../../models/user.model";
 
 /**
  * Utils
  */
-import { decrypt } from "../../utils/crypt";
+import { decrypt } from "../../../utils/crypt";
 
 const SECRET_KEY = process.env.SECRET_KEY || "";
 

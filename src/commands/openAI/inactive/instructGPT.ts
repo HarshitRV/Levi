@@ -3,18 +3,18 @@
  */
 import { SlashCommandBuilder } from "discord.js";
 import { Configuration, OpenAIApi } from "openai";
-import { instructionEmbed } from "./helper/instructionEmbed";
-import { interactionReply } from "./helper/interactionReply";
+import { instructionEmbed } from "../helper/instructionEmbed";
+import { interactionReply } from "../helper/interactionReply";
 
 /**
  * Utils
  */
-import { decrypt } from "../../utils/crypt";
+import { decrypt } from "../../../utils/crypt";
 
 /**
  * Models
  */
-import User from "../../models/user.model";
+import User from "../../../models/user.model";
 
 /**
  * Globals
