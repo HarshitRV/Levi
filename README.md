@@ -7,7 +7,7 @@
     </div>
 </div>
 
-Levi is a Discord bot equipped with OpenAI APIs like ChatGPT and Google's Gemini to provide you with assistance right within your own server. Powered by [discord.js](https://discord.js.org/#/).
+Levi is a Discord bot equipped with AI like Google's Gemini to provide you with assistance right within your own server. Powered by [discord.js](https://discord.js.org/#/).
 
 ## Add to Server
 
@@ -31,19 +31,6 @@ For support and queries, join our [discord server](https://discord.com/invite/9q
 
 ### Google Gemini Commands 🤖
 - `/gemini` - Ask google gemini anything (NEW) ✨.
-
-### OpenAI Commands 🤖
-
-- `/gpt` - Ask GPT any question (powered by [OpenAI](https://beta.openai.com/overview)).
-- `/instruct-gpt` - Instruct GPT regarding a specific task to get more accurate results.
-- `/register-token` - Regiter your open-ai api token for using chat gpt in discord.
-- `/delete-gpt` - Remove your token from the bot.
-
-Here's how to get your api token for using OpenAI APIs.
-
-- Go to [OpenAI](https://beta.openai.com/overview) and create an account.
-- Go to [this](https://beta.openai.com/account/api-keys) page and copy your api token.
-- Use `/register-token` command to register your token with the bot.
 
 ## Contributing
 
