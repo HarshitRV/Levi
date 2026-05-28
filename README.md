@@ -53,6 +53,19 @@ brew install bun yt-dlp ffmpeg
 
    Fill in `DISCORD_TOKEN` and `DISCORD_CLIENT_ID`. Optionally set `DISCORD_GUILD_ID` to a test guild for instant slash-command updates.
 
+### Logging
+
+Set `LOG_LEVEL` in `.env` to control console verbosity (`debug`, `info`, `warn`, or `error`; default `info`). Logs look like:
+
+```
+2026-05-28T13:54:01.123Z INFO  [queue:923] track-started title="Bohemian Rhapsody" url=https://youtu.be/… requestedBy=harshit
+```
+
+- **`debug`** — command/button invocations, queue lifecycle, yt-dlp subprocess spawns, audio resource creation.
+- **`info`** — ready/join/leave, track transitions, playback controls, metadata resolution.
+- **`warn`** — voice connection trouble, resolution failures, permission rejections.
+- **`error`** — command crashes, player/yt-dlp failures, unhandled rejections.
+
 3. **Install deps**
 
    ```bash
@@ -151,7 +164,8 @@ src/
 │   └── ytdlp.ts             # yt-dlp metadata + stream helpers
 ├── utils/
 │   ├── embeds.ts            # consistent embed colors/builders
-│   └── format.ts            # duration / progress-bar helpers
+│   ├── format.ts            # duration / progress-bar helpers
+│   └── logger.ts            # scoped console logging (LOG_LEVEL)
 └── commands/                # one file per slash command
 ```
 

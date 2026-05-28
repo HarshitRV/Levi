@@ -2,12 +2,15 @@ import type { ButtonInteraction } from "discord.js";
 import { queueManager } from "../music/queue-manager.ts";
 import type { GuildQueue } from "../music/guild-queue.ts";
 import { errorEmbed } from "../utils/embeds.ts";
+import { logger } from "../utils/logger.ts";
 import {
   buildNothingPlayingPayload,
   buildNowPlayingPayload,
   buildQueueEndedPayload,
   parseControlAction,
 } from "./_nowplaying.ts";
+
+const log = logger.scope("nowplaying");
 
 async function requireSameVoice(
   interaction: ButtonInteraction,
@@ -31,6 +34,13 @@ async function requireSameVoice(
   }
 
   if (!botVoiceChannelId || voiceChannel.id !== botVoiceChannelId) {
+    log.warn("permission-rejected", {
+      reason: "wrong-voice-channel",
+      guildId: interaction.guildId,
+      userId: interaction.user.id,
+      userChannelId: voiceChannel.id,
+      botChannelId: botVoiceChannelId,
+    });
     await interaction.reply({
       embeds: [
         errorEmbed(
@@ -67,6 +77,12 @@ export async function handleNowPlayingButton(
   if (!action) return;
 
   const guildId = interaction.guildId ?? "";
+  log.info("button-action", {
+    action,
+    guildId,
+    userId: interaction.user.id,
+  });
+
   const queue = queueManager.get(guildId);
   const ok = await requireSameVoice(interaction, queue?.voiceChannelId ?? null);
   if (!ok) return;

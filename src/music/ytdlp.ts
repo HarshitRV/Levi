@@ -2,6 +2,10 @@ import { spawn } from "node:child_process";
 import { Readable } from "node:stream";
 import { config } from "../config.ts";
 import type { Track } from "../types.ts";
+import { truncate } from "../utils/format.ts";
+import { logger } from "../utils/logger.ts";
+
+const log = logger.scope("ytdlp");
 
 /**
  * yt-dlp's JSON shape is enormous; we pick the fields we use.
@@ -33,6 +37,10 @@ function pickThumbnail(info: YtdlpInfo): string | null {
   if (info.thumbnail) return info.thumbnail;
   const last = info.thumbnails?.at(-1);
   return last?.url ?? null;
+}
+
+function sanitizeArgs(args: readonly string[]): string[] {
+  return args.map((arg) => (isUrl(arg) ? truncate(arg, 120) : arg));
 }
 
 /** Convert a single yt-dlp info object into a {@link Track}. Pure. */
@@ -109,6 +117,8 @@ async function runYtdlpJson(target: string): Promise<YtdlpInfo> {
     target,
   ];
 
+  log.debug("spawning-ytdlp", { args: sanitizeArgs(args) });
+
   return new Promise((resolve, reject) => {
     const proc = spawn(config.ytdlpPath, args, {
       stdio: ["ignore", "pipe", "pipe"],
@@ -117,17 +127,39 @@ async function runYtdlpJson(target: string): Promise<YtdlpInfo> {
     const errChunks: Buffer[] = [];
     proc.stdout.on("data", (c: Buffer) => chunks.push(c));
     proc.stderr.on("data", (c: Buffer) => errChunks.push(c));
-    proc.on("error", reject);
+    proc.on("error", (err) => {
+      log.error("ytdlp-spawn-failed", { err });
+      reject(err);
+    });
     proc.on("close", (code) => {
       if (code !== 0) {
         const stderr = Buffer.concat(errChunks).toString("utf8");
+        const tail = truncate(stderr.trim(), 500);
+        log.error("ytdlp-metadata-failed", {
+          exitCode: code ?? -1,
+          stderr: tail,
+        });
         reject(new Error(`yt-dlp exited with code ${code}: ${stderr.trim()}`));
         return;
       }
       try {
         const text = Buffer.concat(chunks).toString("utf8");
-        resolve(JSON.parse(text) as YtdlpInfo);
+        const info = JSON.parse(text) as YtdlpInfo;
+        const trackCount =
+          info._type === "playlist" && Array.isArray(info.entries)
+            ? info.entries.filter(Boolean).length
+            : 1;
+        log.info("metadata-resolved", {
+          title: info.title ?? info.entries?.[0]?.title ?? "Unknown title",
+          duration: info.duration ?? info.entries?.[0]?.duration ?? null,
+          playlistSize:
+            info._type === "playlist" && Array.isArray(info.entries)
+              ? trackCount
+              : null,
+        });
+        resolve(info);
       } catch (err) {
+        log.error("ytdlp-json-parse-failed", { err });
         reject(err as Error);
       }
     });
@@ -157,27 +189,38 @@ export function streamTrack(url: string): {
   stream: Readable;
   cleanup: () => void;
 } {
-  const proc = spawn(
-    config.ytdlpPath,
-    [
-      "-o",
-      "-",
-      "-f",
-      "bestaudio[ext=webm]/bestaudio/best",
-      "--no-playlist",
-      "--no-warnings",
-      "--no-call-home",
-      "--quiet",
-      "--no-part",
-      url,
-    ],
-    { stdio: ["ignore", "pipe", "pipe"] },
-  );
+  const args = [
+    "-o",
+    "-",
+    "-f",
+    "bestaudio[ext=webm]/bestaudio/best",
+    "--no-playlist",
+    "--no-warnings",
+    "--no-call-home",
+    "--quiet",
+    "--no-part",
+    url,
+  ];
 
-  // Drain stderr so the process doesn't block on a full pipe buffer.
+  log.debug("stream-spawn", { args: sanitizeArgs(args) });
+
+  const proc = spawn(config.ytdlpPath, args, {
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  log.debug("stream-started", { url: truncate(url, 120) });
+
   proc.stderr.on("data", () => {});
   proc.on("error", (err) => {
+    log.error("stream-spawn-failed", { url: truncate(url, 120), err });
     proc.stdout.destroy(err);
+  });
+  proc.on("close", (code, signal) => {
+    log.debug("stream-exited", {
+      url: truncate(url, 120),
+      exitCode: code,
+      signal,
+    });
   });
 
   return {

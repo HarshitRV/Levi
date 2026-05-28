@@ -3,8 +3,12 @@ import { queueManager } from "../music/queue-manager.ts";
 import { resolveTracks } from "../music/ytdlp.ts";
 import type { Command } from "../types.ts";
 import { errorEmbed, infoEmbed, trackAddedEmbed } from "../utils/embeds.ts";
+import { truncate } from "../utils/format.ts";
+import { logger } from "../utils/logger.ts";
 import { buildNowPlayingPayload } from "./_nowplaying.ts";
 import { requireVoice } from "./_shared.ts";
+
+const log = logger.scope("play");
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -21,6 +25,13 @@ const command: Command = {
     if (!ctx) return;
 
     const query = interaction.options.getString("query", true);
+    log.info("play-requested", {
+      query: truncate(query, 120),
+      guildId: interaction.guildId,
+      userId: interaction.user.id,
+      voiceChannelId: ctx.voiceChannel.id,
+    });
+
     await interaction.deferReply();
 
     let tracks;
@@ -32,11 +43,23 @@ const command: Command = {
       );
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
+      log.warn("play-resolution-failed", {
+        query: truncate(query, 120),
+        guildId: interaction.guildId,
+        userId: interaction.user.id,
+        reason: message,
+      });
       await interaction.editReply({
         embeds: [errorEmbed("Could not load that track", message)],
       });
       return;
     }
+
+    log.info("play-resolved", {
+      trackCount: tracks.length,
+      firstTitle: tracks[0]?.title ?? null,
+      guildId: interaction.guildId,
+    });
 
     const queue = queueManager.getOrCreate(
       interaction.guildId!,
