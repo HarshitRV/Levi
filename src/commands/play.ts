@@ -21,6 +21,8 @@ const command: Command = {
         .setRequired(true),
     ),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const ctx = await requireVoice(interaction);
     if (!ctx) return;
 
@@ -31,8 +33,6 @@ const command: Command = {
       userId: interaction.user.id,
       voiceChannelId: ctx.voiceChannel.id,
     });
-
-    await interaction.deferReply();
 
     let tracks;
     try {

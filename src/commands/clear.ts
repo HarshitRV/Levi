@@ -8,16 +8,17 @@ const command: Command = {
     .setName("clear")
     .setDescription("Clear the upcoming queue (keeps the current track)."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue || queue.upcoming.length === 0) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Upcoming queue is already empty.")],
-        ephemeral: true,
       });
       return;
     }
     const removed = queue.clearUpcoming();
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [successEmbed("Queue cleared", `Removed ${removed} track(s).`)],
     });
   },

@@ -12,12 +12,14 @@ import {
 } from "@discordjs/voice";
 import type { GuildTextBasedChannel, VoiceBasedChannel } from "discord.js";
 import type { LoopMode, Track } from "../types.ts";
-import { nowPlayingEmbed } from "../utils/embeds.ts";
+import { nowPlayingEmbed, trackEndedEmbed } from "../utils/embeds.ts";
 import { logger, type ScopedLogger } from "../utils/logger.ts";
 import { QueueState } from "./queue-state.ts";
+import {
+  shouldAnnounceTrackEnd,
+  type TrackEndReason,
+} from "./track-end-policy.ts";
 import { streamTrack } from "./ytdlp.ts";
-
-type TrackEndReason = "finished" | "skipped" | "error" | "stopped";
 
 /**
  * Per-guild owner of the voice connection and audio player. Delegates all
@@ -301,6 +303,25 @@ export class GuildQueue {
 
     if (finished !== null) {
       this.log.info("track-ended", { title: finished.title, reason });
+    }
+
+    // Await so the embed lands before the next "now playing" embed for
+    // readable ordering (audio for the next track hasn't started yet at this
+    // point — adds ~100-300ms of slack). Policy decision lives in
+    // shouldAnnounceTrackEnd so the matrix is unit-tested.
+    if (
+      finished !== null &&
+      this.textChannel &&
+      shouldAnnounceTrackEnd({
+        reason,
+        loopMode: this.state.loopMode,
+        hasFinishedTrack: true,
+        hasTextChannel: true,
+      })
+    ) {
+      try {
+        await this.textChannel.send({ embeds: [trackEndedEmbed(finished)] });
+      } catch {}
     }
 
     this.state.onTrackEnded();

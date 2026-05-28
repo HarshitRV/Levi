@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "bun:test";
+import { beforeEach, describe, expect, test } from "vitest";
 import { QueueState } from "../../src/music/queue-state.ts";
 import type { Track } from "../../src/types.ts";
 

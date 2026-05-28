@@ -1,4 +1,11 @@
-import { Client, Events, GatewayIntentBits } from "discord.js";
+import {
+  ActivityType,
+  Client,
+  Events,
+  GatewayIntentBits,
+  MessageFlags,
+  type InteractionReplyOptions,
+} from "discord.js";
 import { handleNowPlayingButton } from "./commands/_nowplaying-handler.ts";
 import { parseControlAction } from "./commands/_nowplaying.ts";
 import { commands } from "./commands/index.ts";
@@ -12,11 +19,22 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
+// Presence is event-driven: server count only changes on join/leave, so we
+// push an update on ready + on each GuildCreate/GuildDelete instead of
+// polling. Saves a gateway broadcast every 10s and dodges Discord's
+// presence rate-limit entirely.
+function updatePresence(c: Client<true>): void {
+  c.user.setActivity(`/help on ${c.guilds.cache.size} servers`, {
+    type: ActivityType.Watching,
+  });
+}
+
 client.once(Events.ClientReady, (c) => {
   log.info("ready", {
     tag: c.user.tag,
     guildCount: c.guilds.cache.size,
   });
+  updatePresence(c);
 });
 
 client.on(Events.GuildCreate, (guild) => {
@@ -25,6 +43,7 @@ client.on(Events.GuildCreate, (guild) => {
     name: guild.name,
     memberCount: guild.memberCount,
   });
+  if (client.isReady()) updatePresence(client);
 });
 
 client.on(Events.GuildDelete, (guild) => {
@@ -33,6 +52,7 @@ client.on(Events.GuildDelete, (guild) => {
     name: guild.name,
     memberCount: guild.memberCount,
   });
+  if (client.isReady()) updatePresence(client);
 });
 
 client.on(Events.ShardReady, (shardId) => {
@@ -69,14 +89,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
           userId: interaction.user.id,
           err,
         });
-        const payload = {
+        const payload: InteractionReplyOptions = {
           embeds: [
             errorEmbed(
               "Something went wrong",
               "The control crashed. Check the bot logs.",
             ),
           ],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         };
         try {
           if (interaction.deferred || interaction.replied) {
@@ -119,14 +139,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
       userId: interaction.user.id,
       err,
     });
-    const payload = {
+    const payload: InteractionReplyOptions = {
       embeds: [
         errorEmbed(
           "Something went wrong",
           "The command crashed. Check the bot logs.",
         ),
       ],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     };
     try {
       if (interaction.deferred || interaction.replied) {

@@ -1,29 +1,35 @@
 {
   "name": "levi-music-bot",
   "version": "0.1.0",
-  "description": "A Discord music bot powered by Bun, yt-dlp, and discord.js",
-  "module": "src/index.ts",
+  "description": "A Discord music bot powered by Node.js, yt-dlp, and discord.js",
+  "main": "src/index.ts",
   "type": "module",
   "private": true,
   "engines": {
-    "bun": ">=1.3.0"
+    "node": ">=20.19"
   },
-  "packageManager": "bun@1.3.14",
+  "packageManager": "pnpm@10.33.4",
   "scripts": {
-    "start": "bun run src/index.ts",
-    "dev": "bun --watch run src/index.ts",
-    "deploy": "bun run src/deploy-commands.ts",
+    "start": "tsx --env-file=.env src/index.ts",
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "deploy": "tsx --env-file=.env src/deploy-commands.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "audit:deps": "bun run scripts/check-deps.ts",
-    "postinstall": "bun run scripts/fix-opus-abi.ts",
-    "test": "bun test tests/utils tests/music tests/commands",
-    "test:watch": "bun test --watch tests/utils tests/music tests/commands",
-    "test:integration": "RUN_INTEGRATION_TESTS=1 bun test tests/integration",
-    "test:all": "bun run audit:deps && bun run typecheck && bun run lint && bun run format:check && bun test tests/utils tests/music tests/commands",
+    "audit:deps": "tsx scripts/check-deps.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "RUN_INTEGRATION_TESTS=1 vitest run tests/integration",
+    "test:all": "pnpm run audit:deps && pnpm run typecheck && pnpm run lint && pnpm run format:check && vitest run",
+    "pm2:start": "pm2 start ecosystem.config.cjs --only levi",
+    "pm2:stop": "pm2 stop levi",
+    "pm2:restart": "pm2 restart levi",
+    "pm2:reload": "pm2 reload levi",
+    "pm2:delete": "pm2 delete levi",
+    "pm2:logs": "pm2 logs levi",
+    "pm2:status": "pm2 describe levi",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -35,9 +41,11 @@
       "prettier --write"
     ]
   },
-  "trustedDependencies": [
-    "@discordjs/opus"
-  ],
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@discordjs/opus"
+    ]
+  },
   "dependencies": {
     "@discordjs/opus": "0.10.0",
     "@discordjs/voice": "0.19.2",
@@ -46,18 +54,20 @@
     "prism-media": "1.3.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "21.0.1",
-    "@commitlint/config-conventional": "21.0.1",
+    "@commitlint/cli": "20.5.3",
+    "@commitlint/config-conventional": "20.5.3",
     "@eslint/js": "10.0.1",
-    "@types/bun": "1.3.14",
     "@types/libsodium-wrappers": "0.8.2",
+    "@types/node": "20.19.41",
     "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.6.0",
     "husky": "9.1.7",
     "lint-staged": "17.0.5",
     "prettier": "3.8.3",
+    "tsx": "4.22.3",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.59.4"
+    "typescript-eslint": "8.59.4",
+    "vitest": "4.1.7"
   }
 }

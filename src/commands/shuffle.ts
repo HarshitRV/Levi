@@ -8,16 +8,17 @@ const command: Command = {
     .setName("shuffle")
     .setDescription("Shuffle the upcoming tracks in the queue."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue || queue.upcoming.length < 2) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Need at least 2 upcoming tracks to shuffle.")],
-        ephemeral: true,
       });
       return;
     }
     queue.shuffle();
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [
         successEmbed("Shuffled", `${queue.upcoming.length} tracks reordered.`),
       ],

@@ -9,6 +9,8 @@ const command: Command = {
     .setName("join")
     .setDescription("Make the bot join your voice channel."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const ctx = await requireVoice(interaction);
     if (!ctx) return;
     queueManager.getOrCreate(
@@ -16,7 +18,7 @@ const command: Command = {
       ctx.voiceChannel,
       ctx.textChannel,
     );
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [successEmbed(`Joined ${ctx.voiceChannel.name}.`)],
     });
   },

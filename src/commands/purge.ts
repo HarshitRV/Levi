@@ -1,4 +1,8 @@
-import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import {
+  MessageFlags,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from "discord.js";
 import type { Command } from "../types.ts";
 import { errorEmbed, successEmbed, warnEmbed } from "../utils/embeds.ts";
 import { canBulkDelete, purgeResult } from "./_purge.ts";
@@ -19,40 +23,37 @@ const command: Command = {
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   async execute(interaction) {
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+
     if (!interaction.inCachedGuild()) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [errorEmbed("This command can only be used in a server.")],
-        ephemeral: true,
       });
       return;
     }
 
     const channel = interaction.channel;
     if (!channel || !canBulkDelete(channel.type)) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [errorEmbed("This channel doesn't support bulk-delete.")],
-        ephemeral: true,
       });
       return;
     }
 
     const me = interaction.guild.members.me;
     if (!me || !channel.permissionsFor(me)?.has("ManageMessages")) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [
           errorEmbed(
             "Missing permissions",
             "I need **Manage Messages** in this channel.",
           ),
         ],
-        ephemeral: true,
       });
       return;
     }
 
     const count = interaction.options.getInteger("count", true);
-
-    await interaction.deferReply({ ephemeral: true });
 
     // `true` filters out messages >14 days old instead of throwing — Discord
     // refuses to bulk-delete those, but the user usually still wants the

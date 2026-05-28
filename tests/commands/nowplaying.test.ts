@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { ComponentType, type APIButtonComponentWithCustomId } from "discord.js";
 import {
   buildControlRow,

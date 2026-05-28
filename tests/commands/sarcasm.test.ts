@@ -1,13 +1,17 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { QUOTES, pickQuote } from "../../src/commands/_sarcasm.ts";
+import sarcasmData from "../../src/commands/_sarcasm.json" with { type: "json" };
 
 describe("pickQuote", () => {
   test("always returns a quote from the QUOTES list", () => {
     const seen = new Set<string>();
     // Walk the RNG across the whole index range so every quote gets picked
-    // at least once and we prove the picker never invents a value.
+    // at least once and we prove the picker never invents a value. We use
+    // the *midpoint* of each bucket so `Math.floor(rng() * N)` lands on
+    // index `i` regardless of IEEE-754 rounding (i / N can floor down to
+    // i - 1 for some N).
     for (let i = 0; i < QUOTES.length; i++) {
-      const v = i / QUOTES.length; // 0, 1/N, 2/N, ... — hits each index exactly once
+      const v = (i + 0.5) / QUOTES.length;
       seen.add(pickQuote(undefined, () => v));
     }
     expect(seen.size).toBe(QUOTES.length);
@@ -57,5 +61,35 @@ describe("pickQuote", () => {
 
   test("QUOTES has no duplicates (so refresh always actually changes the quote)", () => {
     expect(new Set(QUOTES).size).toBe(QUOTES.length);
+  });
+});
+
+describe("sarcasm dataset (_sarcasm.json → QUOTES)", () => {
+  test("the JSON file loads and is a non-empty array", () => {
+    expect(Array.isArray(sarcasmData)).toBe(true);
+    expect(sarcasmData.length).toBeGreaterThan(0);
+  });
+
+  test("every entry has a non-empty string `sarcasm` field", () => {
+    // Guards against silent shape drift if the JSON gets regenerated from
+    // a different source/key (e.g. `quote` instead of `sarcasm`).
+    for (const entry of sarcasmData) {
+      expect(typeof entry.sarcasm).toBe("string");
+      expect(entry.sarcasm.length).toBeGreaterThan(0);
+    }
+  });
+
+  test("QUOTES equals the de-duplicated set of `sarcasm` values", () => {
+    // Pins the wiring between the data file and the exported QUOTES list:
+    // neither side may drop entries or sneak extras in.
+    const expected = Array.from(new Set(sarcasmData.map((e) => e.sarcasm)));
+    expect([...QUOTES].sort()).toEqual([...expected].sort());
+  });
+
+  test("every QUOTES entry traces back to an entry in the JSON", () => {
+    const sources = new Set(sarcasmData.map((e) => e.sarcasm));
+    for (const q of QUOTES) {
+      expect(sources.has(q)).toBe(true);
+    }
   });
 });

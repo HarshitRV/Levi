@@ -3,6 +3,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ComponentType,
+  MessageFlags,
   SlashCommandBuilder,
   type ButtonInteraction,
 } from "discord.js";
@@ -33,17 +34,16 @@ const command: Command = {
     ),
   async execute(interaction) {
     const ephemeral = interaction.options.getBoolean("ephemeral") ?? false;
+    await interaction.deferReply(
+      ephemeral ? { flags: MessageFlags.Ephemeral } : {},
+    );
+
     let current = pickQuote();
 
-    const response = await interaction.reply({
+    const message = await interaction.editReply({
       embeds: [infoEmbed("Sarcasm.exe", current)],
       components: [buildRow(false)],
-      ephemeral,
-      withResponse: true,
     });
-
-    const message = response.resource?.message;
-    if (!message) return;
 
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,

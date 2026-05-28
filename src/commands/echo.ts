@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { Command } from "../types.ts";
 
 const command: Command = {
@@ -18,12 +18,15 @@ const command: Command = {
         .setDescription("Only show the echo to you (default: false)."),
     ),
   async execute(interaction) {
-    const input = interaction.options.getString("input", true);
     const ephemeral = interaction.options.getBoolean("ephemeral") ?? false;
+    await interaction.deferReply(
+      ephemeral ? { flags: MessageFlags.Ephemeral } : {},
+    );
 
-    await interaction.reply({
+    const input = interaction.options.getString("input", true);
+
+    await interaction.editReply({
       content: input,
-      ephemeral,
       // Prevent /echo @everyone style abuse — the text renders, but Discord
       // won't actually ping anyone.
       allowedMentions: { parse: [] },

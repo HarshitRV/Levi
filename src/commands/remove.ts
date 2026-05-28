@@ -16,24 +16,24 @@ const command: Command = {
         .setMinValue(1),
     ),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue || queue.upcoming.length === 0) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Upcoming queue is empty.")],
-        ephemeral: true,
       });
       return;
     }
     const position = interaction.options.getInteger("position", true);
     const removed = queue.removeAt(position - 1);
     if (!removed) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed(`No track at position ${position}.`)],
-        ephemeral: true,
       });
       return;
     }
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [successEmbed(`Removed #${position}`, truncate(removed.title))],
     });
   },
