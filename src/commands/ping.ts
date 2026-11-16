@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { Command } from "../types.ts";
 import { infoEmbed } from "../utils/embeds.ts";
 
@@ -10,8 +10,7 @@ const command: Command = {
     ),
   async execute(interaction) {
     const sent = Date.now();
-    // Defer first so we can measure the full ack roundtrip.
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     const roundtrip = Date.now() - sent;
 
     // ws.ping is -1 until the first heartbeat lands; show "—" in that window

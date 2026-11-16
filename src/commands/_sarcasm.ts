@@ -2,33 +2,23 @@
 // unit-tested without dragging the discord.js command handler into the
 // test graph.
 
-export const QUOTES: readonly string[] = [
-  "Oh, that's great. Yeah, no, that's exactly what I wanted to hear.",
-  "Sure, because the universe definitely owes you a favour.",
-  "Wow, what a totally original opinion. Never heard that before.",
-  "Yeah, I'll get right on that. Just as soon as I finish not caring.",
-  "I'm not saying you're wrong. I'm saying you're spectacularly wrong.",
-  "Could that be any more obvious?",
-  "Oh, my fault — I forgot reading the message was optional.",
-  "I'd agree with you, but then we'd both be incorrect.",
-  "Calm down — your inner monologue is leaking again.",
-  "Sorry, I don't speak nonsense as a second language.",
-  "Cool, cool, cool. Let me know how that works out for you.",
-  "Have you tried turning yourself off and on again?",
-  "Bold of you to assume I was paying attention.",
-  "Well, that escalated more slowly than I expected.",
-  "I'm here for moral support. Mostly the immoral kind.",
-  "If sarcasm were a sport, you'd still be in the warm-up.",
-  "Right. Because what this conversation really needed was more confidence.",
-  "I'm not procrastinating, I'm letting the problem develop character.",
-  "Don't worry, I've got a plan. It's just not a good one.",
-  "Yes, I'm fluent in eye-roll. It's my native language.",
-  "Oh, look, another thing I'm going to pretend to remember.",
-  "On a scale of one to ten, that was a solid 'no thanks'.",
-  "Sure, that's a take. A bad one. But a take.",
-  "I'm not saying it was easy. I'm saying you made it look catastrophically hard.",
-  "Could you be any more dramatic? Actually — don't answer that.",
-];
+import sarcasmData from "./_sarcasm.json" with { type: "json" };
+
+interface SarcasmEntry {
+  readonly _id: string;
+  readonly sarcasm: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly __v: number;
+  readonly id: string;
+}
+
+// De-dupe on the way in: the source dataset has a couple of near-duplicate
+// strings, and `pickQuote`'s refresh contract assumes every quote is
+// distinct (see the no-duplicates test in tests/commands/sarcasm.test.ts).
+export const QUOTES: readonly string[] = Array.from(
+  new Set((sarcasmData as readonly SarcasmEntry[]).map((e) => e.sarcasm)),
+);
 
 /**
  * Pick a quote from {@link QUOTES}, optionally avoiding repeating `except`.

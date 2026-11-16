@@ -17,11 +17,12 @@ const command: Command = {
         .setMinValue(1),
     ),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue || (!queue.current && queue.upcoming.length === 0)) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Queue is empty.")],
-        ephemeral: true,
       });
       return;
     }
@@ -64,7 +65,7 @@ const command: Command = {
       text: `Page ${safePage}/${totalPages} · ${queue.upcoming.length} upcoming · ${formatDuration(totalDuration)} total · loop: ${queue.loopMode}`,
     });
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   },
 };
 

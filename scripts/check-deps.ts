@@ -13,7 +13,7 @@
  * file/link paths that escape review).
  *
  * Lifecycle-script defence and the minimum-release-age quarantine live in
- * bunfig.toml + package.json#trustedDependencies; this script only checks
+ * .npmrc + package.json#pnpm.onlyBuiltDependencies; this script only checks
  * what's declared in package.json.
  */
 
@@ -109,7 +109,7 @@ function check(pkg: PackageJson): string[] {
 
 function main(): void {
   const pkgPath = resolve(process.cwd(), "package.json");
-  const lockPath = resolve(process.cwd(), "bun.lock");
+  const lockPath = resolve(process.cwd(), "pnpm-lock.yaml");
 
   if (!existsSync(pkgPath)) {
     console.error("package.json not found");
@@ -118,7 +118,7 @@ function main(): void {
 
   if (!existsSync(lockPath)) {
     console.error(
-      "bun.lock not found — commit the text lockfile so installs are reproducible",
+      "pnpm-lock.yaml not found — commit the lockfile so installs are reproducible",
     );
     process.exit(1);
   }

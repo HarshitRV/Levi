@@ -19,11 +19,12 @@ const command: Command = {
         ),
     ),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Nothing is playing.")],
-        ephemeral: true,
       });
       return;
     }
@@ -35,7 +36,7 @@ const command: Command = {
         : mode === "track"
           ? "Looping current track"
           : "Looping queue";
-    await interaction.reply({ embeds: [successEmbed(label)] });
+    await interaction.editReply({ embeds: [successEmbed(label)] });
   },
 };
 

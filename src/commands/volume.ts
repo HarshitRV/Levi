@@ -16,17 +16,18 @@ const command: Command = {
         .setMaxValue(200),
     ),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Nothing is playing.")],
-        ephemeral: true,
       });
       return;
     }
     const pct = interaction.options.getInteger("level", true);
     const newVol = queue.setVolume(pct / 100);
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [successEmbed("Volume", `Set to ${Math.round(newVol * 100)}%`)],
     });
   },

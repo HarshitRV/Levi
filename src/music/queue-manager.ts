@@ -8,7 +8,12 @@ class QueueManager {
   private queues = new Map<string, GuildQueue>();
 
   get(guildId: string): GuildQueue | undefined {
-    return this.queues.get(guildId);
+    const queue = this.queues.get(guildId);
+    if (queue?.isDestroyed) {
+      this.queues.delete(guildId);
+      return undefined;
+    }
+    return queue;
   }
 
   getOrCreate(
@@ -16,7 +21,7 @@ class QueueManager {
     voiceChannel: VoiceBasedChannel,
     textChannel: GuildTextBasedChannel | null,
   ): GuildQueue {
-    let queue = this.queues.get(guildId);
+    let queue = this.get(guildId);
     if (queue) {
       if (textChannel) queue.textChannel = textChannel;
       return queue;

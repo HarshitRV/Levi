@@ -10,7 +10,7 @@
  * time, so we stub the required values before importing.
  */
 
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { spawnSync } from "node:child_process";
 
 const RUN = process.env.RUN_INTEGRATION_TESTS === "1";

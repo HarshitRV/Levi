@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { ChannelType } from "discord.js";
 import { canBulkDelete, purgeResult } from "../../src/commands/_purge.ts";
 

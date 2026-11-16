@@ -121,7 +121,7 @@ export class QueueState {
    * on loop mode and the skip/rewind flags, then clears those flags and
    * sets `current` to null. The host should then call {@link advance}.
    */
-  onTrackEnded(): void {
+  onTrackEnded(failed = false): void {
     const finished = this.current;
     const skipped = this.skipRequested;
     const rewinding = this.rewindRequested;
@@ -129,7 +129,9 @@ export class QueueState {
     this.rewindRequested = false;
 
     if (finished !== null && !rewinding) {
-      if (!skipped && this.loopMode === "track") {
+      if (failed) {
+        this.history.push(finished);
+      } else if (!skipped && this.loopMode === "track") {
         // Repeat: re-queue the finished track at the front.
         this.upcoming.unshift(finished);
       } else if (this.loopMode === "queue") {

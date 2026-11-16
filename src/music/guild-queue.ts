@@ -1,9 +1,9 @@
 import {
   AudioPlayerStatus,
-  StreamType,
   VoiceConnectionStatus,
   createAudioPlayer,
   createAudioResource,
+  demuxProbe,
   entersState,
   joinVoiceChannel,
   type AudioPlayer,
@@ -12,12 +12,14 @@ import {
 } from "@discordjs/voice";
 import type { GuildTextBasedChannel, VoiceBasedChannel } from "discord.js";
 import type { LoopMode, Track } from "../types.ts";
-import { nowPlayingEmbed } from "../utils/embeds.ts";
+import { nowPlayingEmbed, trackEndedEmbed } from "../utils/embeds.ts";
 import { logger, type ScopedLogger } from "../utils/logger.ts";
 import { QueueState } from "./queue-state.ts";
+import {
+  shouldAnnounceTrackEnd,
+  type TrackEndReason,
+} from "./track-end-policy.ts";
 import { streamTrack } from "./ytdlp.ts";
-
-type TrackEndReason = "finished" | "skipped" | "error" | "stopped";
 
 /**
  * Per-guild owner of the voice connection and audio player. Delegates all
@@ -35,6 +37,8 @@ export class GuildQueue {
   private currentResource: AudioResource | null = null;
   private cleanupCurrentStream: (() => void) | null = null;
   private pendingEndReason: TrackEndReason | null = null;
+  private playbackGeneration = 0;
+  private notifications: Promise<void> = Promise.resolve();
 
   /** 0..2; 1 = 100%. Applied to AudioResource volume transformer. */
   volume = 1.0;
@@ -72,7 +76,8 @@ export class GuildQueue {
       }
     });
 
-    this.player = createAudioPlayer();
+    // A brief download hiccup must not end the song after the default 100ms.
+    this.player = createAudioPlayer({ behaviors: { maxMissedFrames: 50 } });
     this.connection.subscribe(this.player);
 
     this.connection.on(VoiceConnectionStatus.Disconnected, async () => {
@@ -86,13 +91,19 @@ export class GuildQueue {
       }
     });
 
-    this.player.on(AudioPlayerStatus.Idle, () => {
-      void this.onPlayerIdle();
+    this.player.on(AudioPlayerStatus.Idle, (oldState) => {
+      if (
+        "resource" in oldState &&
+        oldState.resource === this.currentResource
+      ) {
+        void this.onPlayerIdle();
+      }
     });
     this.player.on("error", (err) => {
+      if (err.resource !== this.currentResource) return;
       this.log.error("player-error", { err });
       this.pendingEndReason = "error";
-      void this.onPlayerIdle();
+      // The voice library emits Idle after error; advancing here too skips tracks.
     });
     this.player.on("stateChange", (_oldState, newState) => {
       if (newState.status === AudioPlayerStatus.AutoPaused) {
@@ -103,6 +114,9 @@ export class GuildQueue {
 
   get current(): Track | null {
     return this.state.current;
+  }
+  get isDestroyed(): boolean {
+    return this.destroyed;
   }
   get upcoming(): readonly Track[] {
     return this.state.upcoming;
@@ -172,7 +186,7 @@ export class GuildQueue {
     if (skipped === null) return null;
     this.pendingEndReason = "skipped";
     this.log.info("skipped", { title: skipped.title });
-    this.player.stop(true);
+    if (!this.player.stop(true)) void this.onPlayerIdle();
     return skipped;
   }
 
@@ -181,7 +195,7 @@ export class GuildQueue {
     this.pendingEndReason = "skipped";
     this.log.info("previous", { title: this.state.current?.title ?? null });
     if (this.state.current !== null) {
-      this.player.stop(true);
+      if (!this.player.stop(true)) void this.onPlayerIdle();
     } else {
       void this.advanceAndPlay();
     }
@@ -227,6 +241,7 @@ export class GuildQueue {
   destroy(): void {
     if (this.destroyed) return;
     this.destroyed = true;
+    this.playbackGeneration++;
     this.pendingEndReason = "stopped";
     this.cleanupCurrentStream?.();
     this.cleanupCurrentStream = null;
@@ -250,15 +265,26 @@ export class GuildQueue {
   }
 
   private async playCurrent(track: Track): Promise<void> {
+    const generation = ++this.playbackGeneration;
+    const startedAt = Date.now();
     this.cleanupCurrentStream?.();
     this.pendingEndReason = null;
 
     try {
-      const { stream, cleanup } = streamTrack(track.url);
+      const { stream, ready, cleanup } = streamTrack(track.url);
       this.cleanupCurrentStream = cleanup;
+      await Promise.all([
+        ready,
+        entersState(this.connection, VoiceConnectionStatus.Ready, 20_000),
+      ]);
+      if (this.destroyed || generation !== this.playbackGeneration) return;
+      const probed = await demuxProbe(stream);
+      if (this.destroyed || generation !== this.playbackGeneration) return;
 
-      const resource = createAudioResource(stream, {
-        inputType: StreamType.Arbitrary,
+      // Recognized WebM/Ogg Opus uses native decoding instead of an FFmpeg process.
+      // Keep inline volume so existing mid-track volume controls still work.
+      const resource = createAudioResource(probed.stream, {
+        inputType: probed.type,
         inlineVolume: true,
         metadata: track,
       });
@@ -269,19 +295,20 @@ export class GuildQueue {
         url: track.url,
       });
       this.player.play(resource);
+      await entersState(this.player, AudioPlayerStatus.Playing, 15_000);
+      if (this.destroyed || generation !== this.playbackGeneration) return;
       this.log.info("track-started", {
         title: track.title,
         url: track.url,
         requestedBy: track.requestedByName,
         durationSec: track.durationSec,
+        startupMs: Date.now() - startedAt,
+        inputType: probed.type,
       });
 
-      if (this.textChannel) {
-        try {
-          await this.textChannel.send({ embeds: [nowPlayingEmbed(track)] });
-        } catch {}
-      }
+      this.notify(nowPlayingEmbed(track));
     } catch (err) {
+      if (this.destroyed || generation !== this.playbackGeneration) return;
       this.log.error("playback-failed", { title: track.title, err });
       this.pendingEndReason = "error";
       void this.onPlayerIdle();
@@ -289,7 +316,8 @@ export class GuildQueue {
   }
 
   private async onPlayerIdle(): Promise<void> {
-    if (this.destroyed) return;
+    if (this.destroyed || this.state.current === null) return;
+    this.playbackGeneration++;
 
     const finished = this.state.current;
     const reason = this.pendingEndReason ?? "finished";
@@ -298,12 +326,39 @@ export class GuildQueue {
     this.cleanupCurrentStream?.();
     this.cleanupCurrentStream = null;
     this.currentResource = null;
+    this.paused = false;
+    this.player.stop(true);
 
     if (finished !== null) {
       this.log.info("track-ended", { title: finished.title, reason });
     }
 
-    this.state.onTrackEnded();
+    // Preserve message ordering without delaying the next song on Discord REST.
+    if (
+      finished !== null &&
+      this.textChannel &&
+      shouldAnnounceTrackEnd({
+        reason,
+        loopMode: this.state.loopMode,
+        hasFinishedTrack: true,
+        hasTextChannel: true,
+      })
+    ) {
+      this.notify(trackEndedEmbed(finished));
+    }
+
+    // Failed tracks must not retry forever when loop mode is enabled.
+    this.state.onTrackEnded(reason === "error");
     await this.advanceAndPlay();
+  }
+
+  private notify(embed: ReturnType<typeof nowPlayingEmbed>): void {
+    const channel = this.textChannel;
+    if (!channel) return;
+    this.notifications = this.notifications
+      .then(async () => {
+        if (!this.destroyed) await channel.send({ embeds: [embed] });
+      })
+      .catch((err) => this.log.warn("notification-failed", { err }));
   }
 }

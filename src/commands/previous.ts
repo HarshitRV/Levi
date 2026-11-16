@@ -8,22 +8,22 @@ const command: Command = {
     .setName("previous")
     .setDescription("Go back to the previous track."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Nothing is playing.")],
-        ephemeral: true,
       });
       return;
     }
     if (!queue.previous()) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("No previous track in history.")],
-        ephemeral: true,
       });
       return;
     }
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [successEmbed("Rewinding to previous track.")],
     });
   },

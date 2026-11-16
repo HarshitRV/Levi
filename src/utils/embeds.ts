@@ -6,6 +6,7 @@ const COLOR_ACCENT: ColorResolvable = 0x5865f2;
 const COLOR_SUCCESS: ColorResolvable = 0x57f287;
 const COLOR_WARN: ColorResolvable = 0xfee75c;
 const COLOR_ERROR: ColorResolvable = 0xed4245;
+const COLOR_MUTED: ColorResolvable = 0x4f545c;
 
 export function trackAddedEmbed(track: Track, position: number): EmbedBuilder {
   const embed = new EmbedBuilder()
@@ -27,6 +28,21 @@ export function trackAddedEmbed(track: Track, position: number): EmbedBuilder {
     );
   if (track.thumbnail) embed.setThumbnail(track.thumbnail);
   return embed;
+}
+
+export function trackEndedEmbed(track: Track): EmbedBuilder {
+  return new EmbedBuilder()
+    .setColor(COLOR_MUTED)
+    .setTitle("Track ended")
+    .setDescription(`[${truncate(track.title)}](${track.url})`)
+    .addFields(
+      {
+        name: "Duration",
+        value: formatDuration(track.durationSec),
+        inline: true,
+      },
+      { name: "Requested by", value: track.requestedByName, inline: true },
+    );
 }
 
 export function nowPlayingEmbed(track: Track): EmbedBuilder {

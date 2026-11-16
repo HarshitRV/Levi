@@ -8,15 +8,16 @@ const command: Command = {
     .setName("leave")
     .setDescription("Disconnect the bot from the voice channel."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const ok = queueManager.destroy(interaction.guildId ?? "");
     if (!ok) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("I'm not in a voice channel.")],
-        ephemeral: true,
       });
       return;
     }
-    await interaction.reply({ embeds: [successEmbed("Disconnected.")] });
+    await interaction.editReply({ embeds: [successEmbed("Disconnected.")] });
   },
 };
 

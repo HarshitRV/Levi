@@ -10,15 +10,16 @@ const command: Command = {
       "Stop playback, clear the queue, and leave the voice channel.",
     ),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const ok = queueManager.destroy(interaction.guildId ?? "");
     if (!ok) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("I'm not playing anything.")],
-        ephemeral: true,
       });
       return;
     }
-    await interaction.reply({ embeds: [successEmbed("Stopped. Bye.")] });
+    await interaction.editReply({ embeds: [successEmbed("Stopped. Bye.")] });
   },
 };
 

@@ -9,23 +9,23 @@ const command: Command = {
     .setName("skip")
     .setDescription("Skip to the next track."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue || !queue.current) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Nothing is playing.")],
-        ephemeral: true,
       });
       return;
     }
     const skipped = queue.skip();
     if (!skipped) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Nothing to skip.")],
-        ephemeral: true,
       });
       return;
     }
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [successEmbed("Skipped", truncate(skipped.title))],
     });
   },

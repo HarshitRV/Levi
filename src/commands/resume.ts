@@ -8,22 +8,22 @@ const command: Command = {
     .setName("resume")
     .setDescription("Resume the paused track."),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const queue = queueManager.get(interaction.guildId ?? "");
     if (!queue || !queue.current) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Nothing is playing.")],
-        ephemeral: true,
       });
       return;
     }
     if (!queue.resume()) {
-      await interaction.reply({
+      await interaction.editReply({
         embeds: [warnEmbed("Not paused.")],
-        ephemeral: true,
       });
       return;
     }
-    await interaction.reply({ embeds: [successEmbed("Resumed.")] });
+    await interaction.editReply({ embeds: [successEmbed("Resumed.")] });
   },
 };
 
