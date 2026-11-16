@@ -1,61 +1,28 @@
-/**
- * Node js modules
- */
-import fs from "fs";
-import path from "path";
-
-/**
- * Discord js modules
- */
 import { REST, Routes } from "discord.js";
+import { commands } from "./commands/index.ts";
+import { config } from "./config.ts";
 
-/**
- * Globals
- */
-const TOKEN: string = process.env.TOKEN || "";
-const CLIENT_ID: string = process.env.CLIENT_ID || "";
+async function main() {
+  const body = [...commands.values()].map((c) => c.data.toJSON());
+  const rest = new REST({ version: "10" }).setToken(config.discordToken);
 
-const commands = [];
-const commandFoldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(commandFoldersPath);
-
-for (const commandFolder of commandFolders) {
-	const commandPath = path.join(commandFoldersPath, commandFolder);
-	const commandFiles = fs
-		.readdirSync(commandPath)
-		.filter((file) => file.endsWith(".js"));
-
-	for (const files of commandFiles) {
-		const filePath = path.join(commandPath, files);
-		const command = require(filePath);
-		if ("data" in command && "execute" in command) {
-			commands.push(command.data.toJSON());
-		} else {
-			console.log(
-				`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
-			);
-		}
-	}
+  if (config.guildId) {
+    console.log(
+      `Registering ${body.length} commands to guild ${config.guildId}…`,
+    );
+    await rest.put(
+      Routes.applicationGuildCommands(config.clientId, config.guildId),
+      { body },
+    );
+    console.log("Done. Guild commands are live immediately.");
+  } else {
+    console.log(`Registering ${body.length} commands globally…`);
+    await rest.put(Routes.applicationCommands(config.clientId), { body });
+    console.log("Done. Global commands can take up to 1 hour to propagate.");
+  }
 }
 
-const rest = new REST().setToken(TOKEN);
-
-(async () => {
-	try {
-		console.log(
-			`Started refreshing ${commands.length} application (/) commands.`
-		);
-
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data: any = await rest.put(
-			Routes.applicationCommands(CLIENT_ID),
-			{ body: commands }
-		);
-		console.log(
-			`Successfully reloaded ${data.length} application (/) commands.`
-		);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-})();
+main().catch((err) => {
+  console.error("Failed to register commands:", err);
+  process.exit(1);
+});

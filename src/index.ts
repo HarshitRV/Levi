@@ -1,85 +1,174 @@
-/**
- * Node js modules
- */
-import fs from "fs";
-import path from "path";
-import { keepAlive } from "./server.js";
+import {
+  ActivityType,
+  Client,
+  Events,
+  GatewayIntentBits,
+  MessageFlags,
+  type InteractionReplyOptions,
+} from "discord.js";
+import { handleNowPlayingButton } from "./commands/_nowplaying-handler.ts";
+import { parseControlAction } from "./commands/_nowplaying.ts";
+import { commands } from "./commands/index.ts";
+import { config } from "./config.ts";
+import { errorEmbed } from "./utils/embeds.ts";
+import { logger } from "./utils/logger.ts";
 
-/**
- * Discord.js modules
- */
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
-import "./deploy-commands.js";
+const log = logger.scope("client");
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
+});
 
-client.commands = new Collection();
-const commandFoldersPath = path.join(__dirname, "commands");
-const commandFolders = fs.readdirSync(commandFoldersPath);
-
-for (const commandFolder of commandFolders) {
-	const commandPath = path.join(commandFoldersPath, commandFolder);
-	const commandFiles = fs
-		.readdirSync(commandPath)
-		.filter((file) => file.endsWith(".js"));
-
-	for (const files of commandFiles) {
-		const filePath = path.join(commandPath, files);
-		const command = require(filePath);
-		if ("data" in command && "execute" in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.log(
-				`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
-			);
-		}
-	}
+// Presence is event-driven: server count only changes on join/leave, so we
+// push an update on ready + on each GuildCreate/GuildDelete instead of
+// polling. Saves a gateway broadcast every 10s and dodges Discord's
+// presence rate-limit entirely.
+function updatePresence(c: Client<true>): void {
+  c.user.setActivity(`/help on ${c.guilds.cache.size} servers`, {
+    type: ActivityType.Watching,
+  });
 }
 
 client.once(Events.ClientReady, (c) => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
+  log.info("ready", {
+    tag: c.user.tag,
+    guildCount: c.guilds.cache.size,
+  });
+  updatePresence(c);
+});
+
+client.on(Events.GuildCreate, (guild) => {
+  log.info("guild-joined", {
+    guildId: guild.id,
+    name: guild.name,
+    memberCount: guild.memberCount,
+  });
+  if (client.isReady()) updatePresence(client);
+});
+
+client.on(Events.GuildDelete, (guild) => {
+  log.info("guild-left", {
+    guildId: guild.id,
+    name: guild.name,
+    memberCount: guild.memberCount,
+  });
+  if (client.isReady()) updatePresence(client);
+});
+
+client.on(Events.ShardReady, (shardId) => {
+  log.info("shard-ready", { shardId });
+});
+
+client.on(Events.ShardDisconnect, (event, shardId) => {
+  log.warn("shard-disconnect", {
+    shardId,
+    code: event.code,
+    reason: event.reason,
+  });
+});
+
+client.on(Events.ShardReconnecting, (shardId) => {
+  log.info("shard-reconnecting", { shardId });
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-	try {
-		if (interaction.isChatInputCommand()) {
-			const command = interaction.client.commands.get(interaction.commandName);
-			if (!command) {
-				console.error(
-					`No command matching ${interaction.commandName} was found.`
-				);
-				return;
-			}
-			try {
-				await command.execute(interaction);
-			} catch (e) {
-				console.error(`Error executing ${interaction.commandName}`);
-				console.error(e);
-				if (interaction.replied || interaction.deferred) {
-					await interaction.followUp({
-						content: "There was an error while executing this command!",
-						ephemeral: true,
-					});
-				} else {
-					await interaction.reply({
-						content: "There was an error while executing this command!",
-						ephemeral: true,
-					});
-				}
-			}
-		}
+  if (interaction.isButton()) {
+    log.debug("button-click", {
+      customId: interaction.customId,
+      guildId: interaction.guildId,
+      userId: interaction.user.id,
+    });
 
-		// console.log(interaction);
-	} catch (e) {
-		console.log("Error in index.ts");
-		console.error(e);
-	}
+    if (parseControlAction(interaction.customId)) {
+      try {
+        await handleNowPlayingButton(interaction);
+      } catch (err) {
+        log.error("now-playing-button-failed", {
+          customId: interaction.customId,
+          guildId: interaction.guildId,
+          userId: interaction.user.id,
+          err,
+        });
+        const payload: InteractionReplyOptions = {
+          embeds: [
+            errorEmbed(
+              "Something went wrong",
+              "The control crashed. Check the bot logs.",
+            ),
+          ],
+          flags: MessageFlags.Ephemeral,
+        };
+        try {
+          if (interaction.deferred || interaction.replied) {
+            await interaction.followUp(payload);
+          } else {
+            await interaction.reply(payload);
+          }
+        } catch (replyErr) {
+          log.error("error-reply-failed", { err: replyErr });
+        }
+      }
+    }
+    return;
+  }
+
+  if (!interaction.isChatInputCommand()) return;
+
+  log.debug("command-invoked", {
+    name: interaction.commandName,
+    guildId: interaction.guildId,
+    userId: interaction.user.id,
+  });
+
+  const command = commands.get(interaction.commandName);
+  if (!command) {
+    log.warn("unknown-command", {
+      name: interaction.commandName,
+      guildId: interaction.guildId,
+      userId: interaction.user.id,
+    });
+    return;
+  }
+
+  try {
+    await command.execute(interaction);
+  } catch (err) {
+    log.error("command-failed", {
+      name: interaction.commandName,
+      guildId: interaction.guildId,
+      userId: interaction.user.id,
+      err,
+    });
+    const payload: InteractionReplyOptions = {
+      embeds: [
+        errorEmbed(
+          "Something went wrong",
+          "The command crashed. Check the bot logs.",
+        ),
+      ],
+      flags: MessageFlags.Ephemeral,
+    };
+    try {
+      if (interaction.deferred || interaction.replied) {
+        await interaction.followUp(payload);
+      } else {
+        await interaction.reply(payload);
+      }
+    } catch (replyErr) {
+      log.error("error-reply-failed", { err: replyErr });
+    }
+  }
 });
 
-keepAlive();
-client.login(process.env.TOKEN).then(() => {
-	setInterval(() => {
-		const serverCount = client.guilds.cache.size;
-		client.user?.setActivity(`/help on ${serverCount} servers`);
-	}, 10000);
+process.on("unhandledRejection", (err) => {
+  log.error("unhandled-rejection", { err });
 });
+
+// A failed login must exit so PM2 can retry instead of keeping an offline
+// bot marked online (for example when DNS is not ready during boot).
+try {
+  await client.login(config.discordToken);
+} catch (err) {
+  log.error("login-failed", { err });
+  process.exit(1);
+}

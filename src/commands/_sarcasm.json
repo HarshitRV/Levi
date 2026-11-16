@@ -1,0 +1,834 @@
+[
+  {
+    "_id": "677a5ae1f2cc5c7afbaaa244",
+    "sarcasm": "I'm not great at the advice. Can I interest you in a sarcastic comment.",
+    "createdAt": "2025-01-05T10:11:45.108Z",
+    "updatedAt": "2025-01-05T10:11:45.108Z",
+    "__v": 0,
+    "id": "677a5ae1f2cc5c7afbaaa244"
+  },
+  {
+    "_id": "677a5ae3f2cc5c7afbaaa247",
+    "sarcasm": "And I just want a million dollars.",
+    "createdAt": "2025-01-05T10:11:47.910Z",
+    "updatedAt": "2025-01-05T10:11:47.910Z",
+    "__v": 0,
+    "id": "677a5ae3f2cc5c7afbaaa247"
+  },
+  {
+    "_id": "677a5ae4f2cc5c7afbaaa249",
+    "sarcasm": "That's a little more relax than you want them to get.",
+    "createdAt": "2025-01-05T10:11:48.454Z",
+    "updatedAt": "2025-01-05T10:11:48.454Z",
+    "__v": 0,
+    "id": "677a5ae4f2cc5c7afbaaa249"
+  },
+  {
+    "_id": "677a5ae4f2cc5c7afbaaa24b",
+    "sarcasm": "So how many cameras are actually on you?",
+    "createdAt": "2025-01-05T10:11:48.949Z",
+    "updatedAt": "2025-01-05T10:11:48.949Z",
+    "__v": 0,
+    "id": "677a5ae4f2cc5c7afbaaa24b"
+  },
+  {
+    "_id": "677a5ae5f2cc5c7afbaaa24d",
+    "sarcasm": "If that doesn't keep kids in school, what will?",
+    "createdAt": "2025-01-05T10:11:49.328Z",
+    "updatedAt": "2025-01-05T10:11:49.328Z",
+    "__v": 0,
+    "id": "677a5ae5f2cc5c7afbaaa24d"
+  },
+  {
+    "_id": "677a5ae5f2cc5c7afbaaa24f",
+    "sarcasm": "Uh, a t-shirt that says, 'I don't belong here.'",
+    "createdAt": "2025-01-05T10:11:49.596Z",
+    "updatedAt": "2025-01-05T10:11:49.596Z",
+    "__v": 0,
+    "id": "677a5ae5f2cc5c7afbaaa24f"
+  },
+  {
+    "_id": "677a5ae5f2cc5c7afbaaa251",
+    "sarcasm": "Well, What did the police say?",
+    "createdAt": "2025-01-05T10:11:49.883Z",
+    "updatedAt": "2025-01-05T10:11:49.883Z",
+    "__v": 0,
+    "id": "677a5ae5f2cc5c7afbaaa251"
+  },
+  {
+    "_id": "677a5ae6f2cc5c7afbaaa253",
+    "sarcasm": "Ah, that makes me feel so warm in my hollow tin chest.",
+    "createdAt": "2025-01-05T10:11:50.166Z",
+    "updatedAt": "2025-01-05T10:11:50.166Z",
+    "__v": 0,
+    "id": "677a5ae6f2cc5c7afbaaa253"
+  },
+  {
+    "_id": "677a5ae6f2cc5c7afbaaa255",
+    "sarcasm": "Oh, my god! You almost gave me a heart attack.",
+    "createdAt": "2025-01-05T10:11:50.452Z",
+    "updatedAt": "2025-01-05T10:11:50.452Z",
+    "__v": 0,
+    "id": "677a5ae6f2cc5c7afbaaa255"
+  },
+  {
+    "_id": "677a5ae6f2cc5c7afbaaa257",
+    "sarcasm": "At what point do you think this was a successful marriage.",
+    "createdAt": "2025-01-05T10:11:50.729Z",
+    "updatedAt": "2025-01-05T10:11:50.729Z",
+    "__v": 0,
+    "id": "677a5ae6f2cc5c7afbaaa257"
+  },
+  {
+    "_id": "677a5ae7f2cc5c7afbaaa259",
+    "sarcasm": "Oh, my goodness, where did you hide it?",
+    "createdAt": "2025-01-05T10:11:51.011Z",
+    "updatedAt": "2025-01-05T10:11:51.011Z",
+    "__v": 0,
+    "id": "677a5ae7f2cc5c7afbaaa259"
+  },
+  {
+    "_id": "677a5ae7f2cc5c7afbaaa25b",
+    "sarcasm": "Your thoughts? Plural?",
+    "createdAt": "2025-01-05T10:11:51.478Z",
+    "updatedAt": "2025-01-05T10:11:51.478Z",
+    "__v": 0,
+    "id": "677a5ae7f2cc5c7afbaaa25b"
+  },
+  {
+    "_id": "677a5ae7f2cc5c7afbaaa25d",
+    "sarcasm": "It's seven years ago. My time machine works!",
+    "createdAt": "2025-01-05T10:11:51.823Z",
+    "updatedAt": "2025-01-05T10:11:51.823Z",
+    "__v": 0,
+    "id": "677a5ae7f2cc5c7afbaaa25d"
+  },
+  {
+    "_id": "677a5ae8f2cc5c7afbaaa25f",
+    "sarcasm": "And yet I never ran into Beyonce.",
+    "createdAt": "2025-01-05T10:11:52.106Z",
+    "updatedAt": "2025-01-05T10:11:52.106Z",
+    "__v": 0,
+    "id": "677a5ae8f2cc5c7afbaaa25f"
+  },
+  {
+    "_id": "677a5ae8f2cc5c7afbaaa261",
+    "sarcasm": "Was that place...the sun?",
+    "createdAt": "2025-01-05T10:11:52.384Z",
+    "updatedAt": "2025-01-05T10:11:52.384Z",
+    "__v": 0,
+    "id": "677a5ae8f2cc5c7afbaaa261"
+  },
+  {
+    "_id": "677a5ae8f2cc5c7afbaaa263",
+    "sarcasm": "Tell me. I could use another reason why women won't look at me.",
+    "createdAt": "2025-01-05T10:11:52.663Z",
+    "updatedAt": "2025-01-05T10:11:52.663Z",
+    "__v": 0,
+    "id": "677a5ae8f2cc5c7afbaaa263"
+  },
+  {
+    "_id": "677a5ae8f2cc5c7afbaaa265",
+    "sarcasm": "Sweet mother of god that is good and pure !!",
+    "createdAt": "2025-01-05T10:11:52.969Z",
+    "updatedAt": "2025-01-05T10:11:52.969Z",
+    "__v": 0,
+    "id": "677a5ae8f2cc5c7afbaaa265"
+  },
+  {
+    "_id": "677a5ae9f2cc5c7afbaaa267",
+    "sarcasm": "Yeah about 400 boys I went high school with",
+    "createdAt": "2025-01-05T10:11:53.374Z",
+    "updatedAt": "2025-01-05T10:11:53.374Z",
+    "__v": 0,
+    "id": "677a5ae9f2cc5c7afbaaa267"
+  },
+  {
+    "_id": "677a5ae9f2cc5c7afbaaa269",
+    "sarcasm": "Do you think its gonna work ? No way it's suicide ,man's got an egg .",
+    "createdAt": "2025-01-05T10:11:53.645Z",
+    "updatedAt": "2025-01-05T10:11:53.645Z",
+    "__v": 0,
+    "id": "677a5ae9f2cc5c7afbaaa269"
+  },
+  {
+    "_id": "677a5ae9f2cc5c7afbaaa26b",
+    "sarcasm": "In my next life , I am coming back as a toilet brush",
+    "createdAt": "2025-01-05T10:11:53.983Z",
+    "updatedAt": "2025-01-05T10:11:53.983Z",
+    "__v": 0,
+    "id": "677a5ae9f2cc5c7afbaaa26b"
+  },
+  {
+    "_id": "677a5aeaf2cc5c7afbaaa26d",
+    "sarcasm": "I am hopeless and awkward and desperate for love",
+    "createdAt": "2025-01-05T10:11:54.255Z",
+    "updatedAt": "2025-01-05T10:11:54.255Z",
+    "__v": 0,
+    "id": "677a5aeaf2cc5c7afbaaa26d"
+  },
+  {
+    "_id": "677a5aeaf2cc5c7afbaaa26f",
+    "sarcasm": "Yes , Yes. I was just trying to figure out a way.......To demonstrate how can I get my exceptionally large feet into my even bigger mouth.",
+    "createdAt": "2025-01-05T10:11:54.520Z",
+    "updatedAt": "2025-01-05T10:11:54.520Z",
+    "__v": 0,
+    "id": "677a5aeaf2cc5c7afbaaa26f"
+  },
+  {
+    "_id": "677a5aeaf2cc5c7afbaaa271",
+    "sarcasm": "I try to go 4 times a week...but I have missed the last 1200 times .",
+    "createdAt": "2025-01-05T10:11:54.788Z",
+    "updatedAt": "2025-01-05T10:11:54.788Z",
+    "__v": 0,
+    "id": "677a5aeaf2cc5c7afbaaa271"
+  },
+  {
+    "_id": "677a5aebf2cc5c7afbaaa273",
+    "sarcasm": "I just walked in the bathroom and saw Kathy naked... It was like torture.",
+    "createdAt": "2025-01-05T10:11:55.068Z",
+    "updatedAt": "2025-01-05T10:11:55.068Z",
+    "__v": 0,
+    "id": "677a5aebf2cc5c7afbaaa273"
+  },
+  {
+    "_id": "677a5aebf2cc5c7afbaaa275",
+    "sarcasm": "Well, I'm upset...for you.Yeah I mean having s*x with an endless line of beautiful women must be very unfulfilling for you.",
+    "createdAt": "2025-01-05T10:11:55.346Z",
+    "updatedAt": "2025-01-05T10:11:55.346Z",
+    "__v": 0,
+    "id": "677a5aebf2cc5c7afbaaa275"
+  },
+  {
+    "_id": "677a5aebf2cc5c7afbaaa277",
+    "sarcasm": "Dog-gromming, huh?  Okay,  just don't make my tail too poofy.",
+    "createdAt": "2025-01-05T10:11:55.908Z",
+    "updatedAt": "2025-01-05T10:11:55.908Z",
+    "__v": 0,
+    "id": "677a5aebf2cc5c7afbaaa277"
+  },
+  {
+    "_id": "677a5aecf2cc5c7afbaaa279",
+    "sarcasm": "We forget it happened. We swallow our feelings even if it means we're unhappy forever . Sounds Good !!",
+    "createdAt": "2025-01-05T10:11:56.187Z",
+    "updatedAt": "2025-01-05T10:11:56.187Z",
+    "__v": 0,
+    "id": "677a5aecf2cc5c7afbaaa279"
+  },
+  {
+    "_id": "677a5aecf2cc5c7afbaaa27b",
+    "sarcasm": "Well , you know , I'm 29. I mean who needs savings account?",
+    "createdAt": "2025-01-05T10:11:56.587Z",
+    "updatedAt": "2025-01-05T10:11:56.587Z",
+    "__v": 0,
+    "id": "677a5aecf2cc5c7afbaaa27b"
+  },
+  {
+    "_id": "677a5aecf2cc5c7afbaaa27d",
+    "sarcasm": "Oh, and Ross was like, what, A Lion Tamer?",
+    "createdAt": "2025-01-05T10:11:56.871Z",
+    "updatedAt": "2025-01-05T10:11:56.871Z",
+    "__v": 0,
+    "id": "677a5aecf2cc5c7afbaaa27d"
+  },
+  {
+    "_id": "677a5aedf2cc5c7afbaaa27f",
+    "sarcasm": "Our eyes are closed and we're about to cross the street--VERY GOOD!",
+    "createdAt": "2025-01-05T10:11:57.148Z",
+    "updatedAt": "2025-01-05T10:11:57.148Z",
+    "__v": 0,
+    "id": "677a5aedf2cc5c7afbaaa27f"
+  },
+  {
+    "_id": "677a5aedf2cc5c7afbaaa281",
+    "sarcasm": "All right, All right. I'll sleep with my girlfriend. But I'm just doing it for you guys.",
+    "createdAt": "2025-01-05T10:11:57.428Z",
+    "updatedAt": "2025-01-05T10:11:57.428Z",
+    "__v": 0,
+    "id": "677a5aedf2cc5c7afbaaa281"
+  },
+  {
+    "_id": "677a5aedf2cc5c7afbaaa283",
+    "sarcasm": "I don't know, But Donald Trump wants his blue blazer black...BACK!",
+    "createdAt": "2025-01-05T10:11:57.707Z",
+    "updatedAt": "2025-01-05T10:11:57.707Z",
+    "__v": 0,
+    "id": "677a5aedf2cc5c7afbaaa283"
+  },
+  {
+    "_id": "677a5aedf2cc5c7afbaaa285",
+    "sarcasm": "Wow, In 45 minutes, You could find her twice.",
+    "createdAt": "2025-01-05T10:11:57.999Z",
+    "updatedAt": "2025-01-05T10:11:57.999Z",
+    "__v": 0,
+    "id": "677a5aedf2cc5c7afbaaa285"
+  },
+  {
+    "_id": "677a5aeef2cc5c7afbaaa287",
+    "sarcasm": "OKay, 'Cause that's not going to get annoying...You know what I was wrong.",
+    "createdAt": "2025-01-05T10:11:58.296Z",
+    "updatedAt": "2025-01-05T10:11:58.296Z",
+    "__v": 0,
+    "id": "677a5aeef2cc5c7afbaaa287"
+  },
+  {
+    "_id": "677a5aeef2cc5c7afbaaa289",
+    "sarcasm": "Okay, if you see a little version of me in there...KILL IT.",
+    "createdAt": "2025-01-05T10:11:58.571Z",
+    "updatedAt": "2025-01-05T10:11:58.571Z",
+    "__v": 0,
+    "id": "677a5aeef2cc5c7afbaaa289"
+  },
+  {
+    "_id": "677a5aeef2cc5c7afbaaa28b",
+    "sarcasm": "Oh, it's awkward. It's awkward. It's awkward.",
+    "createdAt": "2025-01-05T10:11:58.847Z",
+    "updatedAt": "2025-01-05T10:11:58.847Z",
+    "__v": 0,
+    "id": "677a5aeef2cc5c7afbaaa28b"
+  },
+  {
+    "_id": "677a5aeff2cc5c7afbaaa28d",
+    "sarcasm": "Yes! Yes! A thousand times yes!",
+    "createdAt": "2025-01-05T10:11:59.138Z",
+    "updatedAt": "2025-01-05T10:11:59.138Z",
+    "__v": 0,
+    "id": "677a5aeff2cc5c7afbaaa28d"
+  },
+  {
+    "_id": "677a5aeff2cc5c7afbaaa28f",
+    "sarcasm": "Oh, Oh, Did-Did...Did I wake you?",
+    "createdAt": "2025-01-05T10:11:59.406Z",
+    "updatedAt": "2025-01-05T10:11:59.406Z",
+    "__v": 0,
+    "id": "677a5aeff2cc5c7afbaaa28f"
+  },
+  {
+    "_id": "677a5aeff2cc5c7afbaaa291",
+    "sarcasm": "I've got a carton of milk in my refrigerator. I've had longer relationship with.",
+    "createdAt": "2025-01-05T10:11:59.692Z",
+    "updatedAt": "2025-01-05T10:11:59.692Z",
+    "__v": 0,
+    "id": "677a5aeff2cc5c7afbaaa291"
+  },
+  {
+    "_id": "677a5aeff2cc5c7afbaaa293",
+    "sarcasm": "There's a Phoebe on my sandwich.",
+    "createdAt": "2025-01-05T10:11:59.965Z",
+    "updatedAt": "2025-01-05T10:11:59.965Z",
+    "__v": 0,
+    "id": "677a5aeff2cc5c7afbaaa293"
+  },
+  {
+    "_id": "677a5af0f2cc5c7afbaaa295",
+    "sarcasm": "Well, Just until we find a energy source to replace fuel.",
+    "createdAt": "2025-01-05T10:12:00.247Z",
+    "updatedAt": "2025-01-05T10:12:00.247Z",
+    "__v": 0,
+    "id": "677a5af0f2cc5c7afbaaa295"
+  },
+  {
+    "_id": "677a5af0f2cc5c7afbaaa297",
+    "sarcasm": "It was like somebody literally wrote my worst nightmare and then charged me 32 dollars to see it.",
+    "createdAt": "2025-01-05T10:12:00.516Z",
+    "updatedAt": "2025-01-05T10:12:00.516Z",
+    "__v": 0,
+    "id": "677a5af0f2cc5c7afbaaa297"
+  },
+  {
+    "_id": "677a5af0f2cc5c7afbaaa299",
+    "sarcasm": "I'm so confused to as to what we've been doing so far.",
+    "createdAt": "2025-01-05T10:12:00.807Z",
+    "updatedAt": "2025-01-05T10:12:00.807Z",
+    "__v": 0,
+    "id": "677a5af0f2cc5c7afbaaa299"
+  },
+  {
+    "_id": "677a5af1f2cc5c7afbaaa29b",
+    "sarcasm": "GOOD-BYE, MUSCLES.",
+    "createdAt": "2025-01-05T10:12:01.086Z",
+    "updatedAt": "2025-01-05T10:12:01.086Z",
+    "__v": 0,
+    "id": "677a5af1f2cc5c7afbaaa29b"
+  },
+  {
+    "_id": "677a5af1f2cc5c7afbaaa29d",
+    "sarcasm": "That's good one, too, Pheebs. Now all you have to do is find a planeload of people whose resolution is to plummet to their deaths.",
+    "createdAt": "2025-01-05T10:12:01.363Z",
+    "updatedAt": "2025-01-05T10:12:01.363Z",
+    "__v": 0,
+    "id": "677a5af1f2cc5c7afbaaa29d"
+  },
+  {
+    "_id": "677a5af1f2cc5c7afbaaa29f",
+    "sarcasm": "Do you want us to leave the room or...?",
+    "createdAt": "2025-01-05T10:12:01.646Z",
+    "updatedAt": "2025-01-05T10:12:01.646Z",
+    "__v": 0,
+    "id": "677a5af1f2cc5c7afbaaa29f"
+  },
+  {
+    "_id": "677a5af1f2cc5c7afbaaa2a1",
+    "sarcasm": "Well, as long as the pilgrims didn't eat it, then I'm in.",
+    "createdAt": "2025-01-05T10:12:01.928Z",
+    "updatedAt": "2025-01-05T10:12:01.928Z",
+    "__v": 0,
+    "id": "677a5af1f2cc5c7afbaaa2a1"
+  },
+  {
+    "_id": "677a5af2f2cc5c7afbaaa2a3",
+    "sarcasm": "I'm Chandler, I make jokes when I'm uncomfortable.",
+    "createdAt": "2025-01-05T10:12:02.204Z",
+    "updatedAt": "2025-01-05T10:12:02.204Z",
+    "__v": 0,
+    "id": "677a5af2f2cc5c7afbaaa2a3"
+  },
+  {
+    "_id": "677a5af2f2cc5c7afbaaa2a5",
+    "sarcasm": "Am I naked again?",
+    "createdAt": "2025-01-05T10:12:02.489Z",
+    "updatedAt": "2025-01-05T10:12:02.489Z",
+    "__v": 0,
+    "id": "677a5af2f2cc5c7afbaaa2a5"
+  },
+  {
+    "_id": "677a5af2f2cc5c7afbaaa2a7",
+    "sarcasm": "And I just realized I can sleep with my eyes open.",
+    "createdAt": "2025-01-05T10:12:02.765Z",
+    "updatedAt": "2025-01-05T10:12:02.765Z",
+    "__v": 0,
+    "id": "677a5af2f2cc5c7afbaaa2a7"
+  },
+  {
+    "_id": "677a5af3f2cc5c7afbaaa2a9",
+    "sarcasm": "There's never a good time to stop catching on fire.",
+    "createdAt": "2025-01-05T10:12:03.045Z",
+    "updatedAt": "2025-01-05T10:12:03.045Z",
+    "__v": 0,
+    "id": "677a5af3f2cc5c7afbaaa2a9"
+  },
+  {
+    "_id": "677a5af3f2cc5c7afbaaa2ab",
+    "sarcasm": "Oh, my god. Someone's killed square man.",
+    "createdAt": "2025-01-05T10:12:03.325Z",
+    "updatedAt": "2025-01-05T10:12:03.325Z",
+    "__v": 0,
+    "id": "677a5af3f2cc5c7afbaaa2ab"
+  },
+  {
+    "_id": "677a5af3f2cc5c7afbaaa2ad",
+    "sarcasm": "Good-Bye, Muscles.",
+    "createdAt": "2025-01-05T10:12:03.602Z",
+    "updatedAt": "2025-01-05T10:12:03.602Z",
+    "__v": 0,
+    "id": "677a5af3f2cc5c7afbaaa2ad"
+  },
+  {
+    "_id": "677a5af3f2cc5c7afbaaa2af",
+    "sarcasm": "I'm-I'm sorry, it was a one time thing. I was very drunk and it was someone else's subconscious.",
+    "createdAt": "2025-01-05T10:12:03.887Z",
+    "updatedAt": "2025-01-05T10:12:03.887Z",
+    "__v": 0,
+    "id": "677a5af3f2cc5c7afbaaa2af"
+  },
+  {
+    "_id": "677a5af4f2cc5c7afbaaa2b1",
+    "sarcasm": "No, Interestingly enough her leaf blower picked up.",
+    "createdAt": "2025-01-05T10:12:04.165Z",
+    "updatedAt": "2025-01-05T10:12:04.165Z",
+    "__v": 0,
+    "id": "677a5af4f2cc5c7afbaaa2b1"
+  },
+  {
+    "_id": "677a5af4f2cc5c7afbaaa2b3",
+    "sarcasm": "No, no, I'm just looking for a man to draw on me with chalk.",
+    "createdAt": "2025-01-05T10:12:04.562Z",
+    "updatedAt": "2025-01-05T10:12:04.562Z",
+    "__v": 0,
+    "id": "677a5af4f2cc5c7afbaaa2b3"
+  },
+  {
+    "_id": "677a5af5f2cc5c7afbaaa2b5",
+    "sarcasm": "Okay, you have to stop the q-tip when there's resistance.",
+    "createdAt": "2025-01-05T10:12:05.049Z",
+    "updatedAt": "2025-01-05T10:12:05.049Z",
+    "__v": 0,
+    "id": "677a5af5f2cc5c7afbaaa2b5"
+  },
+  {
+    "_id": "677a5af5f2cc5c7afbaaa2b7",
+    "sarcasm": "What kind of scary-ass clowns came to your birthday?",
+    "createdAt": "2025-01-05T10:12:05.330Z",
+    "updatedAt": "2025-01-05T10:12:05.330Z",
+    "__v": 0,
+    "id": "677a5af5f2cc5c7afbaaa2b7"
+  },
+  {
+    "_id": "677a5af5f2cc5c7afbaaa2b9",
+    "sarcasm": "And condoms are the way to do that?",
+    "createdAt": "2025-01-05T10:12:05.618Z",
+    "updatedAt": "2025-01-05T10:12:05.618Z",
+    "__v": 0,
+    "id": "677a5af5f2cc5c7afbaaa2b9"
+  },
+  {
+    "_id": "677a5af6f2cc5c7afbaaa2bb",
+    "sarcasm": "I'm sorry. W-we don't have your sheep.",
+    "createdAt": "2025-01-05T10:12:06.276Z",
+    "updatedAt": "2025-01-05T10:12:06.276Z",
+    "__v": 0,
+    "id": "677a5af6f2cc5c7afbaaa2bb"
+  },
+  {
+    "_id": "677a5af6f2cc5c7afbaaa2bd",
+    "sarcasm": "Okay, the fifth dentist caved and now they're all recommending Trident?",
+    "createdAt": "2025-01-05T10:12:06.567Z",
+    "updatedAt": "2025-01-05T10:12:06.567Z",
+    "__v": 0,
+    "id": "677a5af6f2cc5c7afbaaa2bd"
+  },
+  {
+    "_id": "677a5af6f2cc5c7afbaaa2bf",
+    "sarcasm": "Well. yes, Ross pressing my third nipple opens the delivery entrance to the ,magical land of Narnia.",
+    "createdAt": "2025-01-05T10:12:06.846Z",
+    "updatedAt": "2025-01-05T10:12:06.846Z",
+    "__v": 0,
+    "id": "677a5af6f2cc5c7afbaaa2bf"
+  },
+  {
+    "_id": "677a5af7f2cc5c7afbaaa2c1",
+    "sarcasm": "Well, maybe he was nervous.",
+    "createdAt": "2025-01-05T10:12:07.126Z",
+    "updatedAt": "2025-01-05T10:12:07.126Z",
+    "__v": 0,
+    "id": "677a5af7f2cc5c7afbaaa2c1"
+  },
+  {
+    "_id": "677a5af7f2cc5c7afbaaa2c3",
+    "sarcasm": "Because I went to all-boys high school and God is making up for it?",
+    "createdAt": "2025-01-05T10:12:07.508Z",
+    "updatedAt": "2025-01-05T10:12:07.508Z",
+    "__v": 0,
+    "id": "677a5af7f2cc5c7afbaaa2c3"
+  },
+  {
+    "_id": "677a5af8f2cc5c7afbaaa2c5",
+    "sarcasm": "I'm glad we're having a rehearsal dinner. I rarely practice my meals before I eat.",
+    "createdAt": "2025-01-05T10:12:08.119Z",
+    "updatedAt": "2025-01-05T10:12:08.119Z",
+    "__v": 0,
+    "id": "677a5af8f2cc5c7afbaaa2c5"
+  },
+  {
+    "_id": "677a5af8f2cc5c7afbaaa2c7",
+    "sarcasm": "Knit good woman knit knit.",
+    "createdAt": "2025-01-05T10:12:08.736Z",
+    "updatedAt": "2025-01-05T10:12:08.736Z",
+    "__v": 0,
+    "id": "677a5af8f2cc5c7afbaaa2c7"
+  },
+  {
+    "_id": "677a5af9f2cc5c7afbaaa2c9",
+    "sarcasm": "Hey thats , Thats JOINCIDENCE with a C.",
+    "createdAt": "2025-01-05T10:12:09.348Z",
+    "updatedAt": "2025-01-05T10:12:09.348Z",
+    "__v": 0,
+    "id": "677a5af9f2cc5c7afbaaa2c9"
+  },
+  {
+    "_id": "677a5af9f2cc5c7afbaaa2cb",
+    "sarcasm": "Because sometimes Phoebe, after you sleep with someone you have to kill a fish.",
+    "createdAt": "2025-01-05T10:12:09.831Z",
+    "updatedAt": "2025-01-05T10:12:09.831Z",
+    "__v": 0,
+    "id": "677a5af9f2cc5c7afbaaa2cb"
+  },
+  {
+    "_id": "677a5afaf2cc5c7afbaaa2cd",
+    "sarcasm": "Okay, I think she's trying to tell us something. Quick get the verbs.",
+    "createdAt": "2025-01-05T10:12:10.271Z",
+    "updatedAt": "2025-01-05T10:12:10.271Z",
+    "__v": 0,
+    "id": "677a5afaf2cc5c7afbaaa2cd"
+  },
+  {
+    "_id": "677a5afaf2cc5c7afbaaa2cf",
+    "sarcasm": "No no, I'm just looking for a man to draw on me with  chalk.",
+    "createdAt": "2025-01-05T10:12:10.884Z",
+    "updatedAt": "2025-01-05T10:12:10.884Z",
+    "__v": 0,
+    "id": "677a5afaf2cc5c7afbaaa2cf"
+  },
+  {
+    "_id": "677a5afbf2cc5c7afbaaa2d1",
+    "sarcasm": "You sure he's going to be able to crack that code?",
+    "createdAt": "2025-01-05T10:12:11.499Z",
+    "updatedAt": "2025-01-05T10:12:11.499Z",
+    "__v": 0,
+    "id": "677a5afbf2cc5c7afbaaa2d1"
+  },
+  {
+    "_id": "677a5afcf2cc5c7afbaaa2d3",
+    "sarcasm": "Of course the packaging does appeal to grownups and kids alike.",
+    "createdAt": "2025-01-05T10:12:12.119Z",
+    "updatedAt": "2025-01-05T10:12:12.119Z",
+    "__v": 0,
+    "id": "677a5afcf2cc5c7afbaaa2d3"
+  },
+  {
+    "_id": "677a5afcf2cc5c7afbaaa2d5",
+    "sarcasm": "The world is my lesbian wedding.",
+    "createdAt": "2025-01-05T10:12:12.733Z",
+    "updatedAt": "2025-01-05T10:12:12.733Z",
+    "__v": 0,
+    "id": "677a5afcf2cc5c7afbaaa2d5"
+  },
+  {
+    "_id": "677a5afdf2cc5c7afbaaa2d7",
+    "sarcasm": "Damn, My mail-order grandfather hasn't come yet.",
+    "createdAt": "2025-01-05T10:12:13.037Z",
+    "updatedAt": "2025-01-05T10:12:13.037Z",
+    "__v": 0,
+    "id": "677a5afdf2cc5c7afbaaa2d7"
+  },
+  {
+    "_id": "677a5afdf2cc5c7afbaaa2d9",
+    "sarcasm": "Oh...Oh, no wait a minute I have no one.  Couldn't we just loose our virginities again? You know actually because mine's is growing back.",
+    "createdAt": "2025-01-05T10:12:13.304Z",
+    "updatedAt": "2025-01-05T10:12:13.304Z",
+    "__v": 0,
+    "id": "677a5afdf2cc5c7afbaaa2d9"
+  },
+  {
+    "_id": "677a5afdf2cc5c7afbaaa2db",
+    "sarcasm": "Oh, Satan's minions at work again.",
+    "createdAt": "2025-01-05T10:12:13.955Z",
+    "updatedAt": "2025-01-05T10:12:13.955Z",
+    "__v": 0,
+    "id": "677a5afdf2cc5c7afbaaa2db"
+  },
+  {
+    "_id": "677a5afef2cc5c7afbaaa2dd",
+    "sarcasm": "Joey at my last stick of gum so I killed him. Do you think that was wrong?",
+    "createdAt": "2025-01-05T10:12:14.400Z",
+    "updatedAt": "2025-01-05T10:12:14.400Z",
+    "__v": 0,
+    "id": "677a5afef2cc5c7afbaaa2dd"
+  },
+  {
+    "_id": "677a5afef2cc5c7afbaaa2df",
+    "sarcasm": "Ooh, I'm alive with pleasure now.",
+    "createdAt": "2025-01-05T10:12:14.788Z",
+    "updatedAt": "2025-01-05T10:12:14.788Z",
+    "__v": 0,
+    "id": "677a5afef2cc5c7afbaaa2df"
+  },
+  {
+    "_id": "677a5afff2cc5c7afbaaa2e1",
+    "sarcasm": "Oh, come on, Dora don't be mad. I know we both said somethings we didn't mean but that doesn't mean we still don't love each other.",
+    "createdAt": "2025-01-05T10:12:15.188Z",
+    "updatedAt": "2025-01-05T10:12:15.188Z",
+    "__v": 0,
+    "id": "677a5afff2cc5c7afbaaa2e1"
+  },
+  {
+    "_id": "677a5afff2cc5c7afbaaa2e3",
+    "sarcasm": "It's great. Maybe tomorrow we can rent a car run over some puppies.",
+    "createdAt": "2025-01-05T10:12:15.801Z",
+    "updatedAt": "2025-01-05T10:12:15.801Z",
+    "__v": 0,
+    "id": "677a5afff2cc5c7afbaaa2e3"
+  },
+  {
+    "_id": "677a5b00f2cc5c7afbaaa2e5",
+    "sarcasm": "Oh, yeah, the hug looked pretty brutal.",
+    "createdAt": "2025-01-05T10:12:16.423Z",
+    "updatedAt": "2025-01-05T10:12:16.423Z",
+    "__v": 0,
+    "id": "677a5b00f2cc5c7afbaaa2e5"
+  },
+  {
+    "_id": "677a5b01f2cc5c7afbaaa2e7",
+    "sarcasm": "Oh, I don't know. A million?",
+    "createdAt": "2025-01-05T10:12:17.024Z",
+    "updatedAt": "2025-01-05T10:12:17.024Z",
+    "__v": 0,
+    "id": "677a5b01f2cc5c7afbaaa2e7"
+  },
+  {
+    "_id": "677a5b01f2cc5c7afbaaa2e9",
+    "sarcasm": "Ross, just for my own peace of mind you're not married to any more of us, are you?",
+    "createdAt": "2025-01-05T10:12:17.293Z",
+    "updatedAt": "2025-01-05T10:12:17.293Z",
+    "__v": 0,
+    "id": "677a5b01f2cc5c7afbaaa2e9"
+  },
+  {
+    "_id": "677a5b01f2cc5c7afbaaa2eb",
+    "sarcasm": "And I think my testicles may be in here, too.",
+    "createdAt": "2025-01-05T10:12:17.570Z",
+    "updatedAt": "2025-01-05T10:12:17.570Z",
+    "__v": 0,
+    "id": "677a5b01f2cc5c7afbaaa2eb"
+  },
+  {
+    "_id": "677a5b01f2cc5c7afbaaa2ed",
+    "sarcasm": "I'am sorry I didn't catch your name. Paul, was it?",
+    "createdAt": "2025-01-05T10:12:17.850Z",
+    "updatedAt": "2025-01-05T10:12:17.850Z",
+    "__v": 0,
+    "id": "677a5b01f2cc5c7afbaaa2ed"
+  },
+  {
+    "_id": "677a5b02f2cc5c7afbaaa2ef",
+    "sarcasm": "I think this is probably why Dimone smokes in his cell, alone.",
+    "createdAt": "2025-01-05T10:12:18.127Z",
+    "updatedAt": "2025-01-05T10:12:18.127Z",
+    "__v": 0,
+    "id": "677a5b02f2cc5c7afbaaa2ef"
+  },
+  {
+    "_id": "67837a116fa78e1740cc943c",
+    "sarcasm": "I think that's the youngest girl ever to reject me.",
+    "createdAt": "2025-01-12T08:15:13.569Z",
+    "updatedAt": "2025-01-12T08:15:13.569Z",
+    "__v": 0,
+    "id": "67837a116fa78e1740cc943c"
+  },
+  {
+    "_id": "67837bcd6fa78e1740cc945a",
+    "sarcasm": "A tall guy with hair similar to mine. Oh, unknowable universe.",
+    "createdAt": "2025-01-12T08:22:37.770Z",
+    "updatedAt": "2025-01-12T08:22:37.770Z",
+    "__v": 0,
+    "id": "67837bcd6fa78e1740cc945a"
+  },
+  {
+    "_id": "67837c136fa78e1740cc9460",
+    "sarcasm": "Luckily the guy she settled for can't hear what you're talking about.",
+    "createdAt": "2025-01-12T08:23:47.970Z",
+    "updatedAt": "2025-01-12T08:23:47.970Z",
+    "__v": 0,
+    "id": "67837c136fa78e1740cc9460"
+  },
+  {
+    "_id": "67868cc205248758c4e0a3c3",
+    "sarcasm": "Well, thank God your livelihood doesn't depend on it.",
+    "createdAt": "2025-01-14T16:11:47.005Z",
+    "updatedAt": "2025-01-14T16:11:47.005Z",
+    "__v": 0,
+    "id": "67868cc205248758c4e0a3c3"
+  },
+  {
+    "_id": "67869cc505248758c4e0a3f4",
+    "sarcasm": "Braid each other's hair and ride horseback on the beach?",
+    "createdAt": "2025-01-14T17:20:05.682Z",
+    "updatedAt": "2025-01-14T17:20:05.682Z",
+    "__v": 0,
+    "id": "67869cc505248758c4e0a3f4"
+  },
+  {
+    "_id": "678a0c8405248758c4e0b149",
+    "sarcasm": "I'm your Uncle Chandler.Funny is all I have.",
+    "createdAt": "2025-01-17T07:53:41.071Z",
+    "updatedAt": "2025-01-17T07:53:41.071Z",
+    "__v": 0,
+    "id": "678a0c8405248758c4e0b149"
+  },
+  {
+    "_id": "678a66f805248758c4e0b240",
+    "sarcasm": "Yes, because if I was at my old job, we'd say, \"$300 million? No, thank you.\"",
+    "createdAt": "2025-01-17T14:19:36.571Z",
+    "updatedAt": "2025-01-17T14:19:36.571Z",
+    "__v": 0,
+    "id": "678a66f805248758c4e0b240"
+  },
+  {
+    "_id": "678baea12711fb0f7fd5df9b",
+    "sarcasm": "I could develop a condition in which I talk and talk and no one hears a word.",
+    "createdAt": "2025-01-18T13:37:37.917Z",
+    "updatedAt": "2025-01-18T13:37:37.917Z",
+    "__v": 0,
+    "id": "678baea12711fb0f7fd5df9b"
+  },
+  {
+    "_id": "678cc3132711fb0f7fd5e321",
+    "sarcasm": "Sure, where?",
+    "createdAt": "2025-01-19T09:17:07.450Z",
+    "updatedAt": "2025-01-19T09:17:07.450Z",
+    "__v": 0,
+    "id": "678cc3132711fb0f7fd5e321"
+  },
+  {
+    "_id": "678e7987feab5ab5b214f76a",
+    "sarcasm": "So, does he have a hump? A hump and a hairpiece?",
+    "createdAt": "2025-01-20T16:27:51.792Z",
+    "updatedAt": "2025-01-20T16:27:51.792Z",
+    "__v": 0,
+    "id": "678e7987feab5ab5b214f76a"
+  },
+  {
+    "_id": "679243ac2e5c493a4a878190",
+    "sarcasm": "Hey, that monkey's got a Ross on his ass.",
+    "createdAt": "2025-01-23T13:27:09.417Z",
+    "updatedAt": "2025-01-23T13:27:09.417Z",
+    "__v": 0,
+    "id": "679243ac2e5c493a4a878190"
+  },
+  {
+    "_id": "6793cd552e5c493a4a8785c9",
+    "sarcasm": "Oh, so forget about the birds but big, red insects suggest fine dining.",
+    "createdAt": "2025-01-24T17:26:45.999Z",
+    "updatedAt": "2025-01-24T17:26:45.999Z",
+    "__v": 0,
+    "id": "6793cd552e5c493a4a8785c9"
+  },
+  {
+    "_id": "6793d2e92e5c493a4a8785f9",
+    "sarcasm": "Joey, if I go first I want to be looking for my keys.",
+    "createdAt": "2025-01-24T17:50:33.599Z",
+    "updatedAt": "2025-01-24T17:50:33.599Z",
+    "__v": 0,
+    "id": "6793d2e92e5c493a4a8785f9"
+  },
+  {
+    "_id": "6793d4252e5c493a4a87861e",
+    "sarcasm": "Sorry. My thing was in there with me.",
+    "createdAt": "2025-01-24T17:55:49.930Z",
+    "updatedAt": "2025-01-24T17:55:49.930Z",
+    "__v": 0,
+    "id": "6793d4252e5c493a4a87861e"
+  },
+  {
+    "_id": "67964e392e5c493a4a878eeb",
+    "sarcasm": "Uh, that's great, Anybody seen a nipple?",
+    "createdAt": "2025-01-26T15:01:14.045Z",
+    "updatedAt": "2025-01-26T15:01:14.045Z",
+    "__v": 0,
+    "id": "67964e392e5c493a4a878eeb"
+  },
+  {
+    "_id": "679651e02e5c493a4a878f59",
+    "sarcasm": "Yes.The doctors say if they remove it, he'll die.",
+    "createdAt": "2025-01-26T15:16:49.026Z",
+    "updatedAt": "2025-01-26T15:16:49.026Z",
+    "__v": 0,
+    "id": "679651e02e5c493a4a878f59"
+  },
+  {
+    "_id": "679b9043b8db8559f0b45e9e",
+    "sarcasm": "Yes, how about a verse of \"killing me softly\"?",
+    "createdAt": "2025-01-30T14:44:19.504Z",
+    "updatedAt": "2025-01-30T14:44:19.504Z",
+    "__v": 0,
+    "id": "679b9043b8db8559f0b45e9e"
+  },
+  {
+    "_id": "679b946cb8db8559f0b45eb9",
+    "sarcasm": "Well I was looking forward to playing basketball but I guess that's out the window.",
+    "createdAt": "2025-01-30T15:02:04.609Z",
+    "updatedAt": "2025-01-30T15:02:04.609Z",
+    "__v": 0,
+    "id": "679b946cb8db8559f0b45eb9"
+  }
+]
