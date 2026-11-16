@@ -164,4 +164,11 @@ process.on("unhandledRejection", (err) => {
   log.error("unhandled-rejection", { err });
 });
 
-await client.login(config.discordToken);
+// A failed login must exit so PM2 can retry instead of keeping an offline
+// bot marked online (for example when DNS is not ready during boot).
+try {
+  await client.login(config.discordToken);
+} catch (err) {
+  log.error("login-failed", { err });
+  process.exit(1);
+}

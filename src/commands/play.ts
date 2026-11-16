@@ -5,7 +5,10 @@ import type { Command } from "../types.ts";
 import { errorEmbed, infoEmbed, trackAddedEmbed } from "../utils/embeds.ts";
 import { truncate } from "../utils/format.ts";
 import { logger } from "../utils/logger.ts";
-import { buildNowPlayingPayload } from "./_nowplaying.ts";
+import {
+  buildNothingPlayingPayload,
+  buildNowPlayingPayload,
+} from "./_nowplaying.ts";
 import { requireVoice } from "./_shared.ts";
 
 const log = logger.scope("play");
@@ -72,7 +75,11 @@ const command: Command = {
       const position = queue.enqueue(track);
       await queue.ensurePlaying();
       if (position === 0) {
-        await interaction.editReply(buildNowPlayingPayload(queue));
+        await interaction.editReply(
+          queue.current
+            ? buildNowPlayingPayload(queue)
+            : buildNothingPlayingPayload(),
+        );
       } else {
         await interaction.editReply({
           embeds: [trackAddedEmbed(track, position)],

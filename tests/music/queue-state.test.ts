@@ -20,6 +20,21 @@ function titles(tracks: readonly Track[] | Track[] | null): string[] {
   return tracks.map((t) => t.title);
 }
 
+describe("failed tracks", () => {
+  test.each(["track", "queue"] as const)(
+    "does not repeat failed audio in %s loop mode",
+    (mode) => {
+      const queue = new QueueState();
+      queue.enqueueMany([makeTrack("broken"), makeTrack("next")]);
+      queue.setLoop(mode);
+      queue.advance();
+      queue.onTrackEnded(true);
+      expect(queue.advance()?.title).toBe("track-next");
+      expect(queue.upcoming).toHaveLength(0);
+    },
+  );
+});
+
 /**
  * Deterministic RNG factory. `values` is a tape of [0,1) numbers the RNG will
  * yield in order. Once exhausted it stays at the last value. Lets us drive

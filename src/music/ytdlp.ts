@@ -4,8 +4,19 @@ import { config } from "../config.ts";
 import type { Track } from "../types.ts";
 import { truncate } from "../utils/format.ts";
 import { logger } from "../utils/logger.ts";
+import { bufferAudio } from "./buffered-stream.ts";
 
 const log = logger.scope("ytdlp");
+const networkArgs = [
+  "--js-runtimes",
+  `node:${process.execPath}`,
+  "--socket-timeout",
+  "10",
+  "--retries",
+  "3",
+  "--fragment-retries",
+  "3",
+];
 
 /**
  * yt-dlp's JSON shape is enormous; we pick the fields we use.
@@ -108,6 +119,7 @@ export function parseYtdlpInfo(
  */
 async function runYtdlpJson(target: string): Promise<YtdlpInfo> {
   const args = [
+    ...networkArgs,
     "-J",
     "--no-warnings",
     "--no-playlist",
@@ -187,13 +199,15 @@ export async function resolveTracks(
  */
 export function streamTrack(url: string): {
   stream: Readable;
+  ready: Promise<void>;
   cleanup: () => void;
 } {
   const args = [
+    ...networkArgs,
     "-o",
     "-",
     "-f",
-    "bestaudio[ext=webm]/bestaudio/best",
+    "bestaudio[acodec=opus]/bestaudio/best",
     "--no-playlist",
     "--no-warnings",
     "--no-call-home",
@@ -207,26 +221,44 @@ export function streamTrack(url: string): {
   const proc = spawn(config.ytdlpPath, args, {
     stdio: ["ignore", "pipe", "pipe"],
   });
+  const { stream, ready } = bufferAudio(proc.stdout);
+  let stopped = false;
+  let stderr = "";
 
   log.debug("stream-started", { url: truncate(url, 120) });
 
-  proc.stderr.on("data", () => {});
+  proc.stderr.on("data", (chunk: Buffer) => {
+    stderr = (stderr + chunk.toString("utf8")).slice(-4096);
+  });
   proc.on("error", (err) => {
     log.error("stream-spawn-failed", { url: truncate(url, 120), err });
-    proc.stdout.destroy(err);
+    stream.destroy(err);
   });
   proc.on("close", (code, signal) => {
+    if (!stopped && code !== 0) {
+      log.error("stream-download-failed", {
+        exitCode: code,
+        stderr: truncate(stderr.trim(), 500),
+      });
+      stream.destroy(new Error(`Audio download failed (exit ${code})`));
+    }
     log.debug("stream-exited", {
       url: truncate(url, 120),
       exitCode: code,
       signal,
     });
   });
+  const cleanup = () => {
+    if (stopped) return;
+    stopped = true;
+    stream.destroy();
+    if (proc.exitCode === null && !proc.killed) proc.kill("SIGKILL");
+  };
+  stream.once("close", cleanup);
 
   return {
-    stream: proc.stdout,
-    cleanup: () => {
-      if (!proc.killed) proc.kill("SIGKILL");
-    },
+    stream,
+    ready,
+    cleanup,
   };
 }

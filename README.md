@@ -202,7 +202,10 @@ The first three rules are enforced by [`scripts/check-deps.ts`](./scripts/check-
 ## How it works
 
 - `yt-dlp -J <query>` resolves metadata (URLs, playlists, or `ytsearch1:` queries).
-- For playback, `yt-dlp -o - -f bestaudio` is spawned and its stdout is piped into `@discordjs/voice`'s `createAudioResource`. `prism-media` + `ffmpeg` transcode to Opus on the fly.
+- Playback prefers Opus audio and enables yt-dlp's Node JavaScript runtime explicitly. A 64 KiB startup reserve and a bounded 1 MiB read-ahead buffer help absorb download stalls. Both sides of the buffer can hold data under backpressure, so budget roughly 2 MiB plus pipeline buffers per active guild.
+- Stream probing selects native WebM/Ogg Opus decoding when possible, avoiding an FFmpeg subprocess for those sources. Other formats retain the FFmpeg fallback. Inline volume remains available mid-track.
+- Playback waits for the voice connection and playable audio. `track-started` logs include actual startup time and detected format. Failed downloads and cancelled startup release their processes; stale player events cannot advance the next song.
+- Discord notification requests are ordered separately from audio transitions, so slow message delivery does not delay the next track.
 - Each guild owns one `GuildQueue` (in `src/music/guild-queue.ts`) which holds the voice connection, the player, the upcoming list, a history stack for `/previous`, the loop mode, and the volume transformer.
 
 ## Project layout
@@ -243,6 +246,9 @@ src/
 - **`packageManager: bun@…`** in `package.json` makes corepack refuse to dispatch pnpm. If you're migrating between runtimes, bootstrap pnpm from `/tmp` (`cd /tmp && corepack prepare pnpm@10 --activate`) before swapping the field.
 
 ### Runtime gotchas
+
+- Keep yt-dlp current: old versions can resolve metadata successfully but fail the actual audio download with HTTP 403. The Pi uses the checksum-verified release at `/home/harshitrvpi/.local/bin/yt-dlp-2026.10.26`, selected by `YTDLP_PATH` in its private `.env`. Updating this user-owned binary does not require sudo. The app passes `--js-runtimes node:<current Node executable>` automatically.
+- The audio player tolerates up to one second of missing packets before ending a track. Buffering mitigates brief input stalls; it cannot eliminate sustained network outages or Discord voice packet loss. Failed tracks are not repeated automatically even in loop mode.
 
 - **Node doesn't auto-load `.env`** (Bun did). All `pnpm` scripts pass `--env-file=.env` to tsx, so `pnpm start`, `pnpm dev`, and `pnpm run deploy` Just Work — but `tsx src/index.ts` invoked directly will read no env at all and crash in `src/config.ts`.
 - **One Discord token = one running bot process.** Starting `pnpm start` in a shell while pm2 is already running `levi` creates two clients with the same token; Discord's gateway will alternately disconnect both. After `pnpm pm2:start`, don't also `pnpm start` from a terminal.
